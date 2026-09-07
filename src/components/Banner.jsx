@@ -1,15 +1,20 @@
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import "../index.css"
 import { div } from "motion/react-client";
 import { X } from "lucide-react" 
+import { useState } from "react";
 
 function Banner(){
+    const [isVisible, setIsVisible] = useState(true);
+
     return(
-        <div className="bg-gray p-3 flex items-center justify-between w-full">
-            <p className='text-dark bannerText font-thin'>Lorem ipsum dolor sit amet consectetur.
-            </p>
-            <X size={18} className=" text-black" />
-        </div>
+        <AnimatePresence>
+            <motion.div initial={{opacity:0, x:0, y:-50}} animate={{opacity:1, x:0, y:0}} transition={{ duration: 0.3 }} exit={{opacity:0, x:0, y:-50}} className={isVisible ? "bg-gray p-3 flex items-center justify-between w-full" : "hidden"}>
+                <p className='text-dark bannerText font-thin'>Lorem ipsum dolor sit amet consectetur.
+                </p>
+                <X size={18} onClick={() => setIsVisible(!isVisible)} className=" text-black" />
+            </motion.div>
+        </AnimatePresence>
     )
 }
 

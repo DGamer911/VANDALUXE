@@ -32,6 +32,7 @@
 
 .bannerText{
       font-weight: 100;
+      
 }
 
 @font-face {
@@ -39,4 +40,24 @@
   src: url('./assets/TANBUSTER-Bold.otf') format('woff2');
   font-weight: 700;
   font-style: normal;
+}
+
+.animate-on-load {
+  animation: welcome 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes welcome{
+  0%{
+    opacity: 1;
+    
+  }
+  50%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+.animate-text {
+  animation: welcomee 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
