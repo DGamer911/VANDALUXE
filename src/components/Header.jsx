@@ -1,18 +1,73 @@
 import "../index.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "motion/react";
-import { Heart, ShoppingBasket, Menu, Search } from "lucide-react";
+import {
+  Heart,
+  ShoppingBasket,
+  Menu,
+  Search,
+  HomeIcon,
+  Shirt,
+  X,
+} from "lucide-react";
 import LOGO from "../assets/LOGO2.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Banner from "../components/Banner";
-
+import {
+  faFacebook,
+  faInstagram,
+  faSnapchat,
+  faTiktok,
+  faWhatsapp,
+} from "@fortawesome/free-brands-svg-icons";
 
 function Header() {
+  const [isVisible, setIsVisible] = useState(true);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [isMenuClicked, setIsMenuClicked] = useState(false);
 
+  useEffect(() => {
+    if (isMenuClicked) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMenuClicked]);
+
+  const linkStyle =
+    "text-dark hover:text-accent border-b border-gray w-full p-4 transition-colors duration-300 ease-in-out";
+  const socialIconStyle =
+    "text-dark hover:text-accent hover:border-dark hover:border border border-transparent p-2";
+
+
+
   return (
     <div className="w-full fixed top-0 left-0 flex flex-col items-center justify-center">
-        <Banner/>
+          <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        exit={{ opacity: 0, y: -50 }}
+        className={
+          isVisible
+            ? "bg-gray p-3 flex z-10 items-center justify-between w-full"
+            : "hidden"
+        }
+      >
+        <p className="text-dark bannerText font-thin">
+          Lorem ipsum dolor sit amet consectetur.
+        </p>
+        <X
+          size={18}
+          onClick={() => setIsVisible(!isVisible)}
+          className=" text-black"
+        />
+      </motion.div>
+    </AnimatePresence>
       <header className="bg-white w-full p-4">
         <nav className="flex items-center justify-between w-full">
           <span className="flex space-x-0.5 items-center">
@@ -77,59 +132,80 @@ function Header() {
               onClick={() => setIsMenuClicked(!isMenuClicked)}
               className="border-1 p-2 lg:hidden rounded-md"
             >
-              <Menu
-                className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
-                strokeWidth={1.5}
-              />
+              {!isMenuClicked ? (
+                <Menu
+                  className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
+                  strokeWidth={1.5}
+                />
+              ) : (
+                <X
+                  className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
+                  strokeWidth={1.5}
+                />
+              )}
             </button>
           </div>
         </nav>
       </header>
-      {isSearchClicked && (
-        <div className=" w-full bg-white-soft z-50 p-2 flex items-center justify-center">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="p-2 border rounded-md w-1/2"
-          />
-        </div>
-      )}
-      {isMenuClicked && (
-        <AnimatePresence>
-            <motion.div className="w-full w-full bg-white-soft z-50 p-2 flex flex-col items-center justify-center gap-2">
-          <a
-            href="#"
-            className="text-dark bg-white w-full py-3 rounded text-center hover:text-accent"
+
+      <AnimatePresence>
+        {isMenuClicked && (
+          <motion.div
+            initial={{ opacity: 0, scale: 1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={isVisible ? "w-full h-[calc(100svh-7rem)] bg-white border-t-1 justify-between border-gray fixed top-28  p-2 flex flex-col items-center gap-2" : "w-full h-[calc(100svh-7rem)] bg-white border-t-1 justify-between border-gray fixed top-16  p-2 flex flex-col items-center gap-2"}
           >
-            Home
-          </a>
-          <a
-            href="#"
-            className="text-dark bg-white w-full py-3 rounded text-center hover:text-accent"
-          >
-            Shop
-          </a>
-          <a
-            href="#"
-            className="text-dark bg-white w-full py-3 rounded text-center hover:text-accent"
-          >
-            Collection
-          </a>
-          <a
-            href="#"
-            className="text-dark bg-white w-full py-3 rounded text-center hover:text-accent"
-          >
-            Contact
-          </a>
-          <a
-            href="#"
-            className="text-dark bg-white w-full py-3 rounded text-center hover:text-accent"
-          >
-            About
-          </a>
-        </motion.div>
-        </AnimatePresence>
-      )}
+            <div className="w-full">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="border-gray active:border-1 active:border-red-500 border w-full p-2 rounded-md"
+              />
+            </div>
+            <div className="flex uppercase w-full p-2 flex-col links items-center gap-2">
+              <motion.a whileHover={{x:5}} transition={{duration:.3, type:"spring"}}  href="#" className={linkStyle}>
+                Home
+              </motion.a>
+              <motion.a whileHover={{x:5}} transition={{duration:.3, type:"spring"}}  href="#" className={linkStyle}>
+                Shop
+              </motion.a>
+              <motion.a whileHover={{x:5}} transition={{duration:.3, type:"spring"}}  href="#" className={linkStyle}>
+                Collection
+              </motion.a>
+              <motion.a whileHover={{x:5}} transition={{duration:.3, type:"spring"}}  href="#" className={linkStyle}>
+                Contact
+              </motion.a>
+              <motion.a whileHover={{x:5}} transition={{duration:.3, type:"spring"}} href="#" className={linkStyle}>
+                About
+              </motion.a>
+            </div>
+            <div className="flex gap-4 p-4  w-full justify-center">
+              <FontAwesomeIcon
+                size="lg"
+                icon={faInstagram}
+                className={socialIconStyle}
+              />
+              <FontAwesomeIcon
+                size="lg"
+                icon={faSnapchat}
+                className={socialIconStyle}
+              />
+              <FontAwesomeIcon
+                size="lg"
+                icon={faTiktok}
+                className={socialIconStyle}
+              />
+              <FontAwesomeIcon
+                size="lg"
+                icon={faWhatsapp}
+                className={socialIconStyle}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

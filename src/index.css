@@ -68,3 +68,9 @@
     display: none;
   }
 }
+
+.links a{
+    font-family: "Castoro Titling", "Poppins";
+  font-weight: 400;
+  color: var(--color-dark);
+}

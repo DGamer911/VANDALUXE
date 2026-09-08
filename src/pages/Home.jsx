@@ -7,7 +7,7 @@ import Section2 from "../components/Section2";
 
 function Home(){
     return(
-        <div className="flex bg-white flex-col items-center overflow-x-hidden justify-center w-full h-full ">
+        <div className="flex bg-dark flex-col items-center overflow-x-hidden justify-center w-full h-full ">
            <Welcome/>
             <Header/>
             <Hero/>
