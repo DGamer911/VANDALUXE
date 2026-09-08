@@ -61,3 +61,10 @@
 .animate-text {
   animation: welcomee 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+
+.cardScroll{
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
