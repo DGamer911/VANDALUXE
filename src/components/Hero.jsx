@@ -1,5 +1,5 @@
+import { Link } from "react-router-dom";
 import "../index.css";
-import { motion } from "motion/react";
 
 function Hero() {
   return (
@@ -12,21 +12,22 @@ function Hero() {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt iure
           vero amet eum voluptas autem inventore, nisi voluptatibus totam fuga.
         </p>
-        <motion.button
-          whileHover={{
-            background: "transparent",
-            color: "#FAFAFF",
-            border: "1px solid #FAFAFF",
-          }}
-          transition={{
-            duration: 0.3,
-            ease: "easeIn",
-          }}
-          style={{ fontFamily: "", border: "1px solid #FAFAFF" }}
-          className="bg-white max-w-[200px] p-4 text-accent"
-        >
-          View Collection
-        </motion.button>
+        <div className="flex lg:fex-row flex-col gap-2">
+          <a
+            onClick={() => console.log("clicked")}
+            href="/#contact"
+            className="bg-white text-center border hover:border-gray border-white hover:bg-gray text-dark rounded-full py-3 px-6 "
+          >
+            Join the community
+          </a>
+          <Link
+            to="/Collection"
+            className="bg-transparent text-center hover:border-gray  py-3 px-6 border font-white rounded-full border-white"
+            onClick={() => console.log("clicked")}
+          >
+            Unlock the Vault
+          </Link>
+        </div>
       </div>
     </div>
   );
