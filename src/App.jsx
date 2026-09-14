@@ -10,6 +10,7 @@ import Header from "./components/Header";
 
 function App() {
   return (
+    <div className="bg-dark">
     <Router>
       <Header />
       <Routes>
@@ -21,6 +22,7 @@ function App() {
       </Routes>
       <Footer />
     </Router>
+    </div>
   );
 }
 

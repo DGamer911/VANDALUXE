@@ -6,7 +6,7 @@ import Contact from "../components/Contact";
 
 function Home() {
   return (
-    <div className="flex homePage bg-dark flex-col items-center overflow-x-hidden justify-center w-full h-full ">
+    <div className="flex homePage bg-dark flex-col items-center overflow-x-hidden justify-center w-full h-full scroll-smooth ">
       <Welcome />
 
       <Hero />

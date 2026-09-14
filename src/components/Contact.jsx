@@ -14,6 +14,8 @@ import { faMobileScreen } from "@fortawesome/free-solid-svg-icons/faMobileScreen
 function Contact() {
   const [isContactOpen, setIsContactOpen] = React.useState(false);
 
+  const contactLinks = "flex flex-row lg:flex-col lg:space-y-2 justify-between items-center p-4 bg-white rounded cursor-pointer border-2 hover:bg-gray border-transparent hover:border-dark-soft transition-all"
+
   React.useEffect(() => {
     if (isContactOpen) {
       document.body.style.overflow = "hidden";
@@ -40,11 +42,11 @@ function Contact() {
               transition={{ duration: 0.5 }}
               className="flex border-b border-dark-soft/20 pb-2 items-center justify-between mb-4"
             >
-              <h1 className="uppercase text-2xl lg:text-2xl font-semibold text-dark ">
-                Get In Touch
+              <h1 style={{fontFamily:"Castoro titling"}} className="uppercase text-dark ">
+                REBEL WITH US
               </h1>
               <div>
-                <FontAwesomeIcon size="lg" icon={faMobileScreen} />
+                <FontAwesomeIcon size="lg" className="text-dark-soft" icon={faMobileScreen} />
               </div>
             </motion.div>
 
@@ -60,7 +62,7 @@ function Contact() {
             </motion.p>
 
             <div>
-              <p className="text-sm font-semibold text-dark mb-4">
+              <p style={{fontFamily:"Castoro titling"}} className="text-sm font-medium text-dark mb-4">
                 Connect With Us:
               </p>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -69,16 +71,15 @@ function Contact() {
                   target="_blank"
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.15 }}
-                  className="flex flex-row lg:flex-col lg:space-y-2 justify-between items-center p-4 bg-white rounded cursor-pointer border-2 hover:bg-gray border-transparent hover:border-dark-soft transition-all"
+                  className={contactLinks}
                   href="https://x.com/vlxstudios_?s=11"
                 >
                   <div className="flex items-center gap-3">
                     <FontAwesomeIcon
                       className="text-dark-soft"
-                      size="lg"
+                      size="md"
                       icon={faXTwitter}
                     />
-                    <span className="lg:hidden block font-sm text-dark">Twitter</span>
                   </div>
                   <span className="text-sm text-dark-soft">@Vlxstudios_</span>
                 </motion.a>
@@ -93,10 +94,9 @@ function Contact() {
                   <div className="flex items-center gap-3">
                     <FontAwesomeIcon
                       className="text-dark-soft"
-                      size="lg"
+                      size="md"
                       icon={faWhatsapp}
                     />
-                    <span className="lg:hidden block font-sm text-dark">Whatsapp</span>
                   </div>
                   <span className="text-sm text-dark-soft">@Vlxstudios</span>
                 </motion.a>
@@ -109,13 +109,12 @@ function Contact() {
                   className="flex flex-row lg:flex-col lg:space-y-2 justify-between items-center p-4 bg-white rounded cursor-pointer border-2 hover:bg-gray border-transparent hover:border-dark-soft transition-all"
                   href="https://www.tiktok.com/@vandaluxe.15?_r=1&_t=ZS-99fRRQJYsw4"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
                     <FontAwesomeIcon
                       className="text-dark-soft"
-                      size="lg"
+                      size="md"
                       icon={faTiktok}
                     />
-                    <span className="lg:hidden block font-semibold text-dark">TikTok</span>
                   </div>
                   <span className="text-sm text-dark-soft">@vandaluxe</span>
                 </motion.a>
@@ -128,13 +127,12 @@ function Contact() {
                   className="flex flex-row lg:flex-col lg:space-y-2 justify-between items-center p-4 bg-white rounded cursor-pointer border-2 hover:bg-gray border-transparent hover:border-dark-soft transition-all"
                   href="https://www.instagram.com/vlxstudios?stkn=ZHYwajQ2N3Mzc20z&utm_source=qr"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
                     <FontAwesomeIcon
                       className="text-dark-soft"
-                      size="lg"
+                      size="md"
                       icon={faInstagram}
                     />
-                    <span className="lg:hidden block font-semibold text-dark">Instagram</span>
                   </div>
                   <span className="text-sm text-dark-soft">@vlxstudios</span>
                 </motion.a>
@@ -301,19 +299,20 @@ function Contact() {
             className="bg-transparent backdrop-blur-2xl text-dark fixed top-0 left-0 p-5 h-screen overflow-scroll contactScroll flex justify-center items-center z-20 w-full"
           >
             <div className="bg-white translate-y-30 p-6 rounded-lg max-w-sm w-full shadow-2xl">
-              <div className="flex border-b-2 border-gray justify-between items-center pb-4 mb-6">
-                <h1 className="font-bold lg:hidden text-xl">Contact Us</h1>
+              <div className="flex border-b-2 justify-between border-gray items-center pb-4 mb-6">
+                <h1 style={{fontFamily:"Castoro titling"}} className="lg:hidden uppercase">Contact Us</h1>
                 <X
                   onClick={() => setIsContactOpen(!isContactOpen)}
                   size={24}
-                  className="cursor-pointer hover:text-dark-soft transition"
+                  strokeWidth={.8}
+                  className="cursor-pointer translate-y-[-2px] hover:text-dark-soft transition"
                 />
               </div>
               <form action="" className="w-full space-y-4">
                 <div>
                   <label
                     htmlFor="userName"
-                    className="text-sm font-semibold text-dark-soft block mb-2"
+                    className="text-sm font-medium text-dark-soft block mb-2"
                   >
                     Full Name
                   </label>
@@ -326,7 +325,7 @@ function Contact() {
                 </div>
                 <div>
                   <label
-                    className="text-sm font-semibold text-dark-soft block mb-2"
+                    className="text-sm font-medium text-dark-soft block mb-2"
                     htmlFor="userEmail"
                   >
                     Email
@@ -341,7 +340,7 @@ function Contact() {
                 </div>
                 <div>
                   <label
-                    className="text-sm font-semibold text-dark-soft block mb-2"
+                    className="text-sm font-medium text-dark-soft block mb-2"
                     htmlFor="userPhoneNumber"
                   >
                     Phone Number
@@ -355,7 +354,7 @@ function Contact() {
                 </div>
                 <div>
                   <label
-                    className="text-sm font-semibold text-dark-soft block mb-2"
+                    className="text-sm font-medium text-dark-soft block mb-2"
                     htmlFor="userMessage"
                   >
                     Message

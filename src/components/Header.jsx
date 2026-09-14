@@ -10,11 +10,19 @@ import {
   faWhatsapp,
   faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [isMenuClicked, setIsMenuClicked] = useState(false);
+
+  // Navigation links configuration
+  const navLinks = [
+    { label: "Home", path: "/" },
+    { label: "Shop", path: "/shop" },
+    { label: "Collection", path: "/collection" },
+    { label: "About", path: "/about" },
+  ];
 
   useEffect(() => {
     if (isMenuClicked) {
@@ -35,8 +43,9 @@ function Header() {
   function handleToggleOffMenu() {
     setIsMenuClicked(!isMenuClicked);
   }
+
   return (
-    <div className="w-full z-50 fixed top-0 left-0 flex flex-col items-center justify-center">
+    <div className="w-full bg-dark z-50 fixed top-0 left-0 flex flex-col items-center justify-center">
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0, y: -50 }}
@@ -59,53 +68,63 @@ function Header() {
           />
         </motion.div>
       </AnimatePresence>
-      <header className="bg-white border-b border-gray w-full p-4">
+
+      <header className="bg-white  border-b border-gray w-full p-4">
         <nav className="flex items-center justify-between w-full">
           <span className="flex space-x-0.5 items-center">
-            <img className="h-6 w-6  " src={LOGO} alt="" />
+            <img className="h-6 w-6 translate-y-[-1.5px]   " src={LOGO} alt="" />
+
             <span
               style={{
                 fontWeight: "lighter",
                 fontFamily: "serif",
-                transform: "translateY(-2px)",
                 marginRight: "5px",
               }}
-              className="font-thin text-2xl"
-            >
+              className="font-thin text-dark-soft translate-y-[-3px] text-2xl"
+            > 
               |
             </span>
+
             <span className="logo m-0 leading-0 p-0">VANDALUXE</span>
           </span>
+
           <ul className="lg:flex justify-center items-center hidden w-full lg:gap-8 gap-4">
-            <motion.li
-              className="bg-gray p-2"
-              whileHover={{ background: "#DADDD8" }}
-            >
-              <Link to="/" className="text-dark hover:text-accent">
-                Home
-              </Link>
-            </motion.li>
-            <motion.li className="p-2" whileHover={{ background: "#DADDD8" }}>
-              <Link to="/Shop" className="text-dark hover:text-accent">
-                Shop
-              </Link>
-            </motion.li>
-            <motion.li className="p-2" whileHover={{ background: "#DADDD8 " }}>
-              <Link to="/Collection" className="text-dark hover:text-accent">
-                Collection
-              </Link>
-            </motion.li>
-            <motion.li className="p-2" whileHover={{ background: " #DADDD8" }}>
-              <a href="/#contact" className="text-dark hover:text-accent">
+            {navLinks.map((link) => (
+              <motion.li
+                key={link.label}
+                whileHover={{}}
+                transition={{ duration: 0.2 }}
+              >
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `relative p-3 text-dark transition-all duration-300
+              border rounded border-transparent
+              links
+              
+                    after:transition-all after:duration-300
+                    ${
+                      isActive
+                        ? "bg-white-soft"
+                        : "after:w-0 hover:border hover:border-gray"
+                    }`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              </motion.li>
+            ))}
+
+            <motion.li className="">
+              <a
+                href="/#contact"
+                className="text-dark border border-transparent a p-3 rounded hover:border-gray hover:text-accent"
+              >
                 Contact
               </a>
             </motion.li>
-            <motion.li className="p-2" whileHover={{ background: "#DADDD8" }}>
-              <Link to="/About" className="text-dark hover:text-accent">
-                About
-              </Link>
-            </motion.li>
           </ul>
+
           <div className="flex gap-3 ">
             <button className="border-1 p-2 rounded-md">
               <ShoppingBasket
@@ -113,12 +132,14 @@ function Header() {
                 strokeWidth={1.5}
               />
             </button>
+
             <button className="lg:flex md:flex hidden border-1 p-2 rounded-md">
               <Heart
                 className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
                 strokeWidth={1.5}
               />
             </button>
+
             <button
               onClick={() => setIsMenuClicked(!isMenuClicked)}
               className="border-1 p-2 lg:hidden rounded-md"
@@ -159,41 +180,32 @@ function Header() {
                 className="border-gray active:border-1 active:border-red-500 border w-full p-2 rounded-md"
               />
             </div>
+
             <div className="flex uppercase w-full p-2 flex-col links items-center gap-2">
-              <Link to="/" onClick={handleToggleOffMenu} className="w-full">
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.3, type: "spring" }}
-                  className={linkStyle}
-                  style={{ fontFamily: "Castoro Titling" }}
+              {navLinks.map((link) => (
+                <NavLink
+                  to={link.path}
+                  onClick={handleToggleOffMenu}
+                  key={link.label}
+                  className="w-full"
                 >
-                  Home
-                </motion.div>
-              </Link>
-              <Link to="/Shop" onClick={handleToggleOffMenu} className="w-full">
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.3, type: "spring" }}
-                  className={linkStyle}
-                  style={{ fontFamily: "Castoro Titling" }}
-                >
-                  Shop
-                </motion.div>
-              </Link>
-              <Link
-                to="/Collection"
-                onClick={handleToggleOffMenu}
-                className="w-full"
-              >
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.3, type: "spring" }}
-                  className={linkStyle}
-                  style={{ fontFamily: "Castoro Titling" }}
-                >
-                  Collection
-                </motion.div>
-              </Link>
+                  {({ isActive }) => (
+                    <motion.div
+                      initial={{ x: isActive ? 5 : 0 }}
+                      animate={{ x: isActive ? 5 : 0 }}
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.3, type: "spring" }}
+                      className={`${linkStyle} ${
+                        isActive ? "bg-white-soft text-accent" : ""
+                      }`}
+                      style={{ fontFamily: "Castoro Titling" }}
+                    >
+                      {link.label}
+                    </motion.div>
+                  )}
+                </NavLink>
+              ))}
+
               <a
                 href="/#contact"
                 onClick={handleToggleOffMenu}
@@ -208,37 +220,32 @@ function Header() {
                   Contact
                 </motion.div>
               </a>
-              <Link
-                to="/About"
-                onClick={handleToggleOffMenu}
-                className="w-full"
-              >
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  transition={{ duration: 0.3, type: "spring" }}
-                  className={linkStyle}
-                  style={{ fontFamily: "Castoro Titling" }}
-                >
-                  About
-                </motion.div>
-              </Link>
             </div>
+
             <div className="flex gap-4 p-4  w-full justify-center">
-              <a                 target="_blank" href="https://www.instagram.com/vlxstudios?stkn=ZHYwajQ2N3Mzc20z&utm_source=qr">
+              <a
+                target="_blank"
+                href="https://www.instagram.com/vlxstudios?stkn=ZHYwajQ2N3Mzc20z&utm_source=qr"
+              >
                 <FontAwesomeIcon
                   size="lg"
                   icon={faInstagram}
                   className={socialIconStyle}
                 />
               </a>
-              <a                 target="_blank" href="https://x.com/vlxstudios_?s=11">
+
+              <a target="_blank" href="https://x.com/vlxstudios_?s=11">
                 <FontAwesomeIcon
                   size="lg"
                   icon={faXTwitter}
                   className={socialIconStyle}
                 />
               </a>
-              <a                 target="_blank" href="https://www.tiktok.com/@vandaluxe.15?_r=1&_t=ZS-99fRRQJYsw4">
+
+              <a
+                target="_blank"
+                href="https://www.tiktok.com/@vandaluxe.15?_r=1&_t=ZS-99fRRQJYsw4"
+              >
                 <FontAwesomeIcon
                   size="lg"
                   href=""
@@ -246,7 +253,8 @@ function Header() {
                   className={socialIconStyle}
                 />
               </a>
-              <a                 target="_blank" href="https://w.app/vlxstudios">
+
+              <a target="_blank" href="https://w.app/vlxstudios">
                 <FontAwesomeIcon
                   size="lg"
                   icon={faWhatsapp}

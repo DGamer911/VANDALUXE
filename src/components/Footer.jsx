@@ -26,7 +26,7 @@ function Footer() {
   ];
 
   return (
-    <footer className="bg-dark text-white w-full">
+    <footer className="bg-dark border-t border-gray/20 text-white w-full">
       {/* Main Footer Content */}
       <div className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:gap-16 gap-8">
@@ -143,7 +143,7 @@ function Footer() {
             </div>
 <div className="space-y-2">
                 <p className="text-gray text-xs">
-              Email: <span className="text-white">hello@vandaluxe.com</span>
+              Email: <span className="text-white">vandaluxeclothingbrand@gmail.com</span>
             </p>
             <p className="text-gray text-xs">
               Phone: <span className="text-white">+2349045523346</span>
