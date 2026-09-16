@@ -72,19 +72,22 @@ function Shop() {
               transition={{ duration: 0.3, type: "spring" }}
               className=" cursor-pointer flex flex-none mb-10 flex-col items-center justify-between relative bg-dark-soft p-2 max-w-[220px]"
               key={item.id}
+              
             >
+                     <NavLink className="w-full flex flex-col items-center justify-content-center" to={`/products/${item.id}`}>
               <motion.img
                 whileHover={{ scale: 1.1 }}
                 className=""
                 src={item.img}
                 alt=""
               />
-              <div className="bg-dark-soft translate-y-5 absolute bottom-0 px-4 py-2  flex flex-col">
+              <div className="bg-dark-soft  translate-y-5 absolute bottom-0 px-4 py-2  flex flex-col">
                 <span>{item.name}</span>
                 <span className="" style={{}}>
-                  {item.price}
+                 ₦{item.price.toLocaleString()}
                 </span>
               </div>
+             </NavLink>
             </motion.div>
           ))}
         </div>
@@ -104,28 +107,26 @@ function Shop() {
           </button>
         </div>
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {selection.map((item) => (
+          {selection.map((product) => (
             <motion.div
               whileHover={{ y: -5 }}
               transition={{ duration: 0.3, type: "spring" }}
-              className=" cursor-pointer flex flex-none flex-col items-center justify-between relative bg-dark-soft  max-w-[135px]"
-              key={item.id}
+              className=" cursor-pointer flex flex-none flex-col items-center justify-between relative bg-dark-soft lg:max-w-[200px]  max-w-[135px]"
+              key={product.id}
             >
-              <motion.img
-                whileHover={{ scale: 1.01 }}
-                className="rounded-b-2xl"
-                src={item.img}
-                alt=""
-              />
-              <div className="flex flex-col p-3 gap-[1px]">
-                <span>{item.name}</span>
-                <span className="text-center font-light" style={{}}>
-                  {item.price}
-                </span>
-                <button className="bg-white w-full p-2 text-dark">
-                  Buy Now
-                </button>
-              </div>
+              <NavLink to={`/products/${product.id}`}>
+                <motion.img className="rounded-b-2xl" src={product.img} alt="" />
+                <div className="flex flex-col p-3 gap-[1px]">
+                  <span className="text-center">{product.name}</span>
+                  <span className="text-center font-light" style={{}}>
+                    ₦{product.price.toLocaleString()}
+                  </span>
+
+                  <button className="bg-white  w-full p-2 text-dark">
+                    Buy Now
+                  </button>
+                </div>
+              </NavLink>
             </motion.div>
           ))}
         </div>

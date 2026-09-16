@@ -13,24 +13,27 @@ function Section2() {
         Try Out Our Latest Selection
       </h1>
       <div className="w-full lg:justify-center items-center  flex flex-nowrap overflow-x-auto  cardScroll  scroll-smooth gap-4 mt-6">
-        {selection.map((item, id) => (
-          <div
-            className="max-w-[240px] border-2 border-gray rounded flex-none flex flex-col items-center justify-center p-2 text-center"
-            key={id}
-          >
-            <motion.img
-              initial={{ y: -5 }}
-              whileInView={{ y: 0 }}
-              src={item.img}
-              alt="placeholder"
-              className="w-full h-full object-cover"
-            />
-            <div className="bg-white-soft w-full rounded mt-1 p-1">
-              <h3 className="font-medium">{item.name}</h3>
-              <p className="">{item.price}</p>
-            </div>
-          </div>
-        ))}
+          {selection.map((item) => (
+            <motion.div
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.3, type: "spring" }}
+              className=" cursor-pointer hover:shadow-2xl flex flex-none mb-10 flex-col items-center justify-between relative bg-white-soft p-2 max-w-[220px]"
+              key={item.id}
+            >
+              <motion.img
+                whileHover={{ scale: 1.1 }}
+                className=""
+                src={item.img}
+                alt=""
+              />
+              <div className="bg-white-soft text-center translate-y-5 absolute bottom-0 px-4 py-2  flex flex-col">
+                <span>{item.name}</span>
+                <span className="" style={{}}>
+                 ₦{item.price.toLocaleString()}
+                </span>
+              </div>
+            </motion.div>
+          ))}
       </div>
       <div className="border-t-2 space-y-2 w-full flex-col flex items-center justify-center border-white-soft p-2 mt-8 text-center">
         <p className="font-light lg:my-2">

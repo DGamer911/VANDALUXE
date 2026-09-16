@@ -35,7 +35,7 @@ function Hero() {
             Join the rebellion
           </a>
           <Link
-            to="/Collection"
+            to="/Shop"
             className="bg-transparent uppercase text-center hover:border-gray  py-3 px-6 border font-white duration-300 ease-out transition-all rounded-full border-white"
             onClick={() => console.log("clicked")}
           >

@@ -13,14 +13,13 @@ import {
 import { NavLink } from "react-router-dom";
 
 function Header() {
-  const [isVisible, setIsVisible] = useState(true);
   const [isMenuClicked, setIsMenuClicked] = useState(false);
 
   // Navigation links configuration
   const navLinks = [
     { label: "Home", path: "/" },
     { label: "Shop", path: "/shop" },
-    { label: "Collection", path: "/collection" },
+    { label: "Favorite", path: "/favorites" },
     { label: "About", path: "/about" },
   ];
 
@@ -38,7 +37,7 @@ function Header() {
   const linkStyle =
     "text-dark border-b border-gray w-full p-4 transition-colors duration-300 ease-in-out";
   const socialIconStyle =
-    "text-dark hover:text-accent hover:border-dark hover:border border border-transparent p-2";
+    "text-dark-soft hover:text-accent hover:border-gray hover:border border border-transparent p-2";
 
   function handleToggleOffMenu() {
     setIsMenuClicked(!isMenuClicked);
@@ -46,33 +45,14 @@ function Header() {
 
   return (
     <div className="w-full bg-dark z-50 fixed top-0 left-0 flex flex-col items-center justify-center">
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          exit={{ opacity: 0, y: -50 }}
-          className={
-            isVisible
-              ? "bg-gray p-3 flex z-10 items-center justify-between w-full"
-              : "hidden"
-          }
-        >
-          <p className="text-dark bannerText font-thin">
-            Lorem ipsum dolor sit amet consectetur.
-          </p>
-          <X
-            size={18}
-            onClick={() => setIsVisible(!isVisible)}
-            className=" text-black"
-          />
-        </motion.div>
-      </AnimatePresence>
-
       <header className="bg-white  border-b border-gray w-full p-4">
         <nav className="flex items-center justify-between w-full">
           <span className="flex space-x-0.5 items-center">
-            <img className="h-6 w-6 translate-y-[-1.5px]   " src={LOGO} alt="" />
+            <img
+              className="h-6 w-6 translate-y-[-1.5px]   "
+              src={LOGO}
+              alt=""
+            />
 
             <span
               style={{
@@ -81,7 +61,7 @@ function Header() {
                 marginRight: "5px",
               }}
               className="font-thin text-dark-soft translate-y-[-3px] text-2xl"
-            > 
+            >
               |
             </span>
 
@@ -133,12 +113,14 @@ function Header() {
               />
             </button>
 
-            <button className="lg:flex md:flex hidden border-1 p-2 rounded-md">
-              <Heart
-                className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
-                strokeWidth={1.5}
-              />
-            </button>
+            <NavLink className="lg:flex md:flex hidden" to="/favorites">
+              <button className="lg:flex md:flex hidden border-1 p-2 rounded-md">
+                <Heart
+                  className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
+                  strokeWidth={1.5}
+                />
+              </button>
+            </NavLink>
 
             <button
               onClick={() => setIsMenuClicked(!isMenuClicked)}
@@ -167,17 +149,13 @@ function Header() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className={
-              isVisible
-                ? "w-full h-[calc(100svh-7rem)] bg-white border-t-1 justify-between border-gray fixed top-28  p-2 flex flex-col items-center gap-2"
-                : "w-full h-[calc(100svh-7rem)] bg-white border-t-1 justify-between border-gray fixed top-16  p-2 flex flex-col items-center gap-2"
-            }
+            className="w-full h-[calc(100svh-4rem)] bg-white border-t justify-between border-gray   p-2 flex flex-col items-center gap-2"
           >
             <div className="w-full">
               <input
                 type="text"
                 placeholder="Search..."
-                className="border-gray active:border-1 active:border-red-500 border w-full p-2 rounded-md"
+                className="border-gray active:border active:border-red-500 border w-full p-2 rounded-md"
               />
             </div>
 
@@ -248,7 +226,6 @@ function Header() {
               >
                 <FontAwesomeIcon
                   size="lg"
-                  href=""
                   icon={faTiktok}
                   className={socialIconStyle}
                 />
