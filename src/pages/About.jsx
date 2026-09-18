@@ -1,6 +1,5 @@
 import "../index.css";
 import model from "../assets/vdx11.jpeg";
-import logo from "../assets/LOGO1.jpeg";
 import { NavLink } from "react-router-dom";
 import { Shirt, File, KeyRoundIcon } from "lucide-react";
 import { motion } from "motion/react";
@@ -68,7 +67,7 @@ function About() {
         </div>
         <div className="w-full flex-col flex gap-25  z-2 p-5">
           <div className="bg-dark-soft z-2 p-2">
-            <img src={logo} alt="" />
+            <img src={model} alt="" />
             <p className="text-start p-2 my-2 font-light">
               Born in Abuja, <mark>Vandaluxe</mark> exists at the intersection
               of style, rebellion, individuality, and culture. We create pieces
@@ -88,7 +87,7 @@ function About() {
 
         <div className="w-full p-4">
           <div className="bg-dark-soft lg:flex z-2 p-2">
-            <img className="lg:max-w-[400px]" src={logo} alt="" />
+            <img className="lg:max-w-[400px]" src={model} alt="" />
             <div className="bg-dark-soft absolute p-2 -translate-y-[118%] translate-x-[5%]">
               <h1 style={{fontFamily:"AccentFont"}}>REBEL N’ STYLE</h1>
               <h2 className="text-gray  text-sm font-light">Rebellion isn’t always loud.</h2>
