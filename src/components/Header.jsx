@@ -107,14 +107,16 @@ function Header() {
 
           <div className="flex gap-3 ">
             <button className="border-1 p-2 rounded-md">
-              <ShoppingBasket
-                className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
-                strokeWidth={1.5}
-              />
+              <NavLink to="/cart">
+                <ShoppingBasket
+                  className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
+                  strokeWidth={1.5}
+                />
+              </NavLink>
             </button>
 
-            <NavLink className="lg:flex md:flex hidden" to="/favorites">
-              <button className="lg:flex md:flex hidden border-1 p-2 rounded-md">
+            <NavLink className="flex" to="/favorites">
+              <button className="flex border-1 p-2 rounded-md">
                 <Heart
                   className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
                   strokeWidth={1.5}

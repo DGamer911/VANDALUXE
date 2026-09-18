@@ -1,20 +1,12 @@
-import storeBanner from "../assets/store.jpg";
 import "../index.css";
 import { NavLink } from "react-router-dom";
-import model from "../assets/image1.jpg";
+import model from "../assets/vdx9.jpeg";
 import { selection } from "../data/data";
 import { motion } from "motion/react";
 import { Search, ListFilterIcon } from "lucide-react";
 
 function Shop() {
   const styles = {
-    storeBanner: {
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-      color: "white",
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${storeBanner})`,
-    },
     model: {
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",

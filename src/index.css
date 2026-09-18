@@ -37,7 +37,8 @@
 }
 
 .cardScroll,
-.contactScroll {
+.contactScroll,
+.tble {
   &::-webkit-scrollbar {
     display: none;
   }

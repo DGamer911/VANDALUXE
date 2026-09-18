@@ -1,4 +1,4 @@
-import placeholder from "../assets/model.jpg";
+import placeholder from "../assets/vdx13.jpeg";
 import {
   faInstagram,
   faTiktok,

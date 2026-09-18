@@ -7,8 +7,12 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import ProductDetails from "./pages/ProductDetails";
+import CheckOut from "./pages/CheckOut";
+
+import Cart from "./pages/Cart"
 
 import Favorites from "./pages/Favorites";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -17,12 +21,15 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/cart" element ={<Cart/>}/>
           <Route path="/about" element={<About />} />
           <Route path="/collection" element={<Shop />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/checkout" element={<CheckOut />} />
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
         <Footer />
       </Router>
