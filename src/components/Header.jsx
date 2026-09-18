@@ -1,7 +1,7 @@
 import "../index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "motion/react";
-import { Heart, ShoppingBasket, Menu, X } from "lucide-react";
+import { Heart, ShoppingBag, Menu, X } from "lucide-react";
 import LOGO from "../assets/LOGO2.png";
 import { useState, useEffect } from "react";
 import {
@@ -108,7 +108,7 @@ function Header() {
           <div className="flex gap-3 ">
             <button className="border-1 p-2 rounded-md">
               <NavLink to="/cart">
-                <ShoppingBasket
+                <ShoppingBag
                   className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
                   strokeWidth={1.5}
                 />

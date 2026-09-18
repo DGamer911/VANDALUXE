@@ -6,7 +6,7 @@ import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import cartIconData from "../assets/cartIcon.json";
+import cartIconData from "../assets/InBag.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
@@ -50,7 +50,6 @@ function ProductDetails() {
     };
   }, [extendedView]);
 
-
   if (!product) {
     return <h1>Product not found</h1>;
   }
@@ -70,7 +69,7 @@ function ProductDetails() {
     setTimeout(() => {
       setIsButtenClicked(false);
       setIsSuccess(true);
-    }, 2000);
+    }, 2800);
   };
 
   useEffect(() => {
@@ -144,7 +143,7 @@ function ProductDetails() {
                 {product.name}
               </h1>
 
-              <h2>₦{product.price.toLocaleString()}</h2>
+              <h2>₦{product.price * quantity}</h2>
             </div>
 
             <p className="mt-10 mb-2 text-center font-light">
@@ -233,7 +232,7 @@ function ProductDetails() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3, ease:"easeInOut" }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="flex items-center justify-center "
                     >
                       <span>Please Wait</span>
@@ -249,7 +248,7 @@ function ProductDetails() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3, ease:"easeOut" }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
                       className="flex items-center justify-center font-bold "
                     >
                       Success!
@@ -261,7 +260,7 @@ function ProductDetails() {
               </button>
               {isSuccess && (
                 <NavLink className="underline font-light text-gray" to="/cart">
-                  View Cart
+                  View Bag
                 </NavLink>
               )}
             </div>

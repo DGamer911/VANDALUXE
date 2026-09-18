@@ -13,7 +13,7 @@ function Section2() {
       >
         Try Out Our Latest Selection
       </h1>
-      <div className="w-full lg:justify-center items-center  flex flex-nowrap overflow-x-auto  cardScroll  scroll-smooth gap-4 mt-6">
+      <div className="w-full justify-center items-center  flex flex-nowrap overflow-x-auto  cardScroll  scroll-smooth gap-4 mt-6">
         {selection.map((item) => (
           <motion.div
             whileHover={{ y: -5 }}

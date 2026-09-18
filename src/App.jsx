@@ -16,7 +16,7 @@ import NotFound from "./pages/NotFound";
 
 function App() {
   return (
-    <div className="bg-dark">
+    <div className="bg-dark scroll-smooth">
       <Router>
         <Header />
         <Routes>

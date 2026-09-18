@@ -57,7 +57,7 @@ function Shop() {
           Collection
         </h1>
 
-        <div className="w-full lg:justify-center items-center flex flex-nowrap overflow-x-auto  cardScroll  scroll-smooth gap-4 py-2 px-6 mt-4">
+        <div className="w-full justify-center items-center flex flex-nowrap overflow-x-auto  cardScroll  scroll-smooth gap-4 py-2 px-6 mt-4">
           {selection.map((item) => (
             <motion.div
               whileHover={{ y: -5 }}
