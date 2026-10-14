@@ -1,30 +1,49 @@
-import { createContext, useContext, useEffect, useState } from "react";
+
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const FavoritesContext = createContext();
 
-export function FavoritesProvider({ children }) {
-  const [favorites, setFavorites] = useState(() => {
+function loadFavorites() {
+  try {
     const savedFavorites = localStorage.getItem("favorites");
+    const parsed = savedFavorites ? JSON.parse(savedFavorites) : [];
 
-    return savedFavorites ? JSON.parse(savedFavorites) : [];
-  });
+    return Array.isArray(parsed)
+      ? parsed.map(String)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+export function FavoritesProvider({ children }) {
+  const [favorites, setFavorites] = useState(loadFavorites);
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
   const toggleFavorite = (productId) => {
+    const id = String(productId);
+
     setFavorites((currentFavorites) => {
-      if (currentFavorites.includes(productId)) {
-        return currentFavorites.filter((id) => id !== productId);
+      if (currentFavorites.includes(id)) {
+        return currentFavorites.filter(
+          (favoriteId) => favoriteId !== id
+        );
       }
 
-      return [...currentFavorites, productId];
+      return [...currentFavorites, id];
     });
   };
 
   const isFavorite = (productId) => {
-    return favorites.includes(productId);
+    return favorites.includes(String(productId));
   };
 
   return (

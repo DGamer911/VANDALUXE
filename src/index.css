@@ -13,7 +13,13 @@
   --color-gray: #daddd8;
   --color-dark: #1c1c1c;
   --color-dark-soft: #2c2c2c;
+  --color-dark-soft2: #4a4a4a;
   --color-accent: #0a0a0b;
+
+  --color-accent2: #252528;
+  --color-accent3: #3b3b3f;
+  --color-accent4: #5a5a60;
+  --color-accent5: #7c7c83;
 
   --font-inter: "Inter", sans-serif;
   --font-accent: "AccentFont", sans-serif;
@@ -56,3 +62,4 @@ td, th{
   border: 1px solid rgba(219, 222, 217, 0.2);
   text-align: center;
 }
+

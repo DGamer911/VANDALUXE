@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 
 import "../index.css";
+import placeholder from "../assets/vdx13.jpeg";
 
 function Cart() {
   const navigate = useNavigate();
@@ -106,9 +107,13 @@ function Cart() {
                     <div className="flex lg:gap-4 gap-2 p-2">
                       <div className="w-28 h-36 md:w-40 md:h-52 bg-gray-100 shrink-0 overflow-hidden">
                         <img
-                          src={item.image}
+                          src={item.image || placeholder}
                           alt={item.name}
                           className="w-full h-full object-cover"
+                          onError={(event) => {
+                            event.currentTarget.onerror = null;
+                            event.currentTarget.src = placeholder;
+                          }}
                         />
                       </div>
 
