@@ -1,7 +1,7 @@
 import express from "express";
 
 import { adminLogin } from "../controllers/adminController.js";
-import protectAdmin from "../middleware/adminauth.js";
+import protectAdmin from "../middleware/adminAuth.js";
 
 import {
   getMessages,
