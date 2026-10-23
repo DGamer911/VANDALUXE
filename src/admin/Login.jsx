@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import logo from "../assets/LOGO1.jpeg";
+import logo from "../assets/LOGO.jpg";
 import background from "../assets/store.jpg";
 
 const API_URL =
