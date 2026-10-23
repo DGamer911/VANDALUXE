@@ -1,3 +1,4 @@
+
 import "dotenv/config";
 
 import express from "express";
@@ -17,17 +18,17 @@ dns.setServers(["8.8.8.8", "1.1.1.1"]);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Add your deployed Netlify URL to CLIENT_URL on Render.
+// Multiple origins can be separated by commas.
 const allowedOrigins = new Set(
   (
     process.env.CLIENT_URL ||
     "http://localhost:5173,http://localhost:3000"
   )
     .split(",")
-    .map((origin) => origin.trim())
+    .map((origin) => origin.trim().replace(/\/+$/, ""))
     .filter(Boolean)
 );
-
-app.use(express.json({ limit: "20kb" }));
 
 console.log("Allowed frontend origins:", [...allowedOrigins]);
 
@@ -35,48 +36,69 @@ console.log("Allowed frontend origins:", [...allowedOrigins]);
 app.use((req, res, next) => {
   const origin = req.get("Origin");
 
-  if (origin && !allowedOrigins.has(origin)) {
-    return res.status(403).json({
-      error: "Origin not allowed",
-      receivedOrigin: origin,
-    });
+  // Handle preflight requests before processing API routes.
+  if (req.method === "OPTIONS") {
+    if (!origin || !allowedOrigins.has(origin.replace(/\/+$/, ""))) {
+      return res.status(403).json({
+        error: "Origin not allowed",
+        receivedOrigin: origin,
+      });
+    }
+
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+
+    return res.sendStatus(204);
   }
 
   if (origin) {
+    const normalizedOrigin = origin.replace(/\/+$/, "");
+
+    if (!allowedOrigins.has(normalizedOrigin)) {
+      return res.status(403).json({
+        error: "Origin not allowed",
+        receivedOrigin: origin,
+      });
+    }
+
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Vary", "Origin");
-  }
-
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,POST,PUT,PATCH,DELETE,OPTIONS"
-  );
-
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type,Authorization"
-  );
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(204);
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
   }
 
   next();
 });
 
-// Existing routes.
+app.use(express.json({ limit: "20kb" }));
+
+// Existing API routes.
 app.use("/api/payments", paymentRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
-
-// New public contact submission endpoint.
 app.use("/api/messages", messageRoutes);
 
+// Root endpoint.
 app.get("/", (req, res) => {
   res.json({ message: "Vandaluxe API is running" });
 });
 
+// Health check.
 app.get("/api/health", (req, res) => {
   const states = [
     "disconnected",
@@ -91,6 +113,7 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// 404 handler.
 app.use((req, res) => {
   res.status(404).json({
     error: "Route not found",
@@ -98,15 +121,16 @@ app.use((req, res) => {
   });
 });
 
+// Start server after connecting to MongoDB.
 async function startServer() {
   if (!process.env.DB_URL) {
-    throw new Error("DB_URL is missing. Set it in backend/.env.");
+    throw new Error("DB_URL is missing. Set it in Render's environment variables.");
   }
 
   await connectDB();
 
   app.listen(PORT, () => {
-    console.log(`Vandaluxe server running on http://localhost:${PORT}`);
+    console.log(`Vandaluxe server listening on port ${PORT}`);
   });
 }
 
