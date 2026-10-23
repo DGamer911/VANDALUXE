@@ -21,7 +21,59 @@ const API_URL = (
   import.meta.env.VITE_API_URL || "http://localhost:5000"
 ).replace(/\/$/, "");
 
+function SizeChart({ mobile = false }) {
+  const sizes = [
+    ["xxs", '29"-30"', '21"-23"', '33"-34"', '26"'],
+    ["xs", '31"-32"', '24"-25"', '35"-36"', '26.5"'],
+    ["s", '33"-34"', '26"-27"', '37"-38"', '27.5"'],
+    ["m", '35"-36"', '28"-29"', '39"-40"', '28"'],
+    ["l", '37"-38"', '30"-31"', '41"-42"', '28.5"'],
+    ["xl", '39"-40"', '32"-34"', '43"-44"', '29"'],
+    ["xxl", '41"-42"', '35"-37"', '45"-46"', '29.5"'],
+  ];
 
+  return (
+    <div
+      className={`${
+        mobile ? "block lg:hidden" : "hidden lg:block flex-1/3"
+      } p-5 mt-2 bg-dark-soft`}
+    >
+      <div className="border-b border-gray/20 pb-4">
+        <span className="uppercase text-white">Size chart</span>
+      </div>
+
+      <div className="uppercase my-4 bg-transparent border border-gray/20 text-white p-2">
+        Sizes in inches
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="text-white border border-gray/20 p-4 w-full">
+          <thead>
+            <tr className="uppercase">
+              {["Size", "Chest", "Waist", "Hip", "Inseam"].map((heading) => (
+                <th className="p-1" key={heading}>{heading}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {sizes.map((row) => (
+              <tr key={row[0]}>
+                {row.map((value, index) => (
+                  <td
+                    className={`p-1 ${index === 0 ? "uppercase" : ""}`}
+                    key={index}
+                  >
+                    {value}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
 
 function ProductDetails() {
   const { id } = useParams();
