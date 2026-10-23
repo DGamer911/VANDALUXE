@@ -1,4 +1,4 @@
-import Logo2 from "../assets/LOGO1.jpeg";
+import Logo2 from "../assets/LOGO.jpg";
 import { NavLink } from "react-router-dom";
 
 import { Bell, MessageSquare } from "lucide-react";

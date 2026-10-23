@@ -11,7 +11,7 @@ import {
   ChartColumnBigIcon,
 } from "lucide-react";
 
-import Logo2 from "../assets/LOGO1.jpeg";
+import Logo2 from "../assets/LOGO.jpg";
 
 function SideBar({ isOpen }) {
   const navigate = useNavigate();
