@@ -21,6 +21,7 @@ function Header() {
     { label: "Shop", path: "/shop" },
     { label: "Favorite", path: "/favorites" },
     { label: "About", path: "/about" },
+    { label: "Admin", path: "/admin/dashboard" },
   ];
 
   useEffect(() => {
