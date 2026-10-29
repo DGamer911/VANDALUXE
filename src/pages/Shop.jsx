@@ -64,7 +64,7 @@ function Shop() {
       className={`cursor-pointer flex flex-none flex-col items-center justify-between relative bg-dark-soft ${
         featured
           ? "mb-10 p-2 max-w-[220px]"
-          : "max-w-[220px] lg:max-w-[200px]"
+          : "max-w-[135px] lg:max-w-[200px]"
       }`}
     >
       <NavLink
