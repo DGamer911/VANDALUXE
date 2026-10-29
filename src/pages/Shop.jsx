@@ -200,8 +200,8 @@ function Shop() {
             No matching products found.
           </p>
         ) : (
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {filteredProducts.map((product) => (
+          <div className="w-full justify-center items-center ">
+                 {filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
