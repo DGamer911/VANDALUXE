@@ -1,12 +1,11 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import logo from "../assets/LOGO.jpg";
 import background from "../assets/store.jpg";
+import { NavLink } from "react-router-dom";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function Login() {
   const navigate = useNavigate();
@@ -54,7 +53,7 @@ function Login() {
       setError(
         err.message === "Failed to fetch"
           ? "Cannot reach the server. Check that your backend is running."
-          : err.message || "Something went wrong. Please try again."
+          : err.message || "Something went wrong. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -73,8 +72,16 @@ function Login() {
   return (
     <div
       style={styles.login}
-      className="flex min-h-screen w-full items-center justify-center bg-dark px-4 py-8"
+      className="flex flex-col h-screen relative w-full items-center justify-center bg-dark px-4 py-8"
     >
+      <div className="storeBanner z-2 flex justify-between items-center w-full h-[100px]">
+        <span className="font-sm cursor-pointer border border-white-soft text-white-soft p-2 font-thin">
+          <NavLink className="font-sm hover:underline" to="/">
+            Home
+          </NavLink>
+          {" / "}Admin
+        </span>
+      </div>
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 15 }}
@@ -107,10 +114,7 @@ function Login() {
           )}
 
           <div>
-            <label
-              htmlFor="email"
-              className="mb-2 block text-sm text-gray"
-            >
+            <label htmlFor="email" className="mb-2 block text-sm text-gray">
               Email
             </label>
 
@@ -128,10 +132,7 @@ function Login() {
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="mb-2 block text-sm text-gray"
-            >
+            <label htmlFor="password" className="mb-2 block text-sm text-gray">
               Password
             </label>
 

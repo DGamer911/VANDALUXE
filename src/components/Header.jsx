@@ -48,7 +48,8 @@ function Header() {
     <div className="w-full bg-dark z-50 fixed top-0 left-0 flex flex-col items-center justify-center">
       <header className="bg-white  border-b border-gray w-full p-4">
         <nav className="flex items-center justify-between w-full">
-          <span className="flex space-x-0.5 items-center">
+<NavLink to="/">
+            <span className="flex space-x-0.5 items-center">
             <img
               className="h-6 w-6 translate-y-[-1.5px]   "
               src={LOGO}
@@ -68,6 +69,7 @@ function Header() {
 
             <span className="logo m-0 leading-0 p-0">VANDALUXE</span>
           </span>
+</NavLink>
 
           <ul className="lg:flex justify-center items-center hidden w-full lg:gap-8 gap-4">
             {navLinks.map((link) => (
@@ -107,17 +109,19 @@ function Header() {
           </ul>
 
           <div className="flex gap-3 ">
-            <button className="border-1 p-2 rounded-md">
-              <NavLink to="/cart">
+             <NavLink to="/cart">
+            <button onClick={()=> setIsMenuClicked(false)} className="border-1 cursor-pointer p-2 rounded-md">
+             
                 <ShoppingBag
                   className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
                   strokeWidth={1.5}
                 />
-              </NavLink>
             </button>
+              </NavLink>
+
 
             <NavLink className="flex" to="/favorites">
-              <button className="flex border-1 p-2 rounded-md">
+              <button onClick={()=> setIsMenuClicked(false)} className="flex cursor-pointer border-1 p-2 rounded-md">
                 <Heart
                   className="lg:h-5 lg:w-5 md:h-5 md:w-5 sm:h-4 sm:w-4 h-4 w-4"
                   strokeWidth={1.5}
@@ -127,7 +131,7 @@ function Header() {
 
             <button
               onClick={() => setIsMenuClicked(!isMenuClicked)}
-              className="border-1 p-2 lg:hidden rounded-md"
+              className="border-1 cursor-pointer p-2 lg:hidden rounded-md"
             >
               {!isMenuClicked ? (
                 <Menu
@@ -225,7 +229,7 @@ function Header() {
 
               <a
                 target="_blank"
-                href="https://www.tiktok.com/@vandaluxe.15?_r=1&_t=ZS-99fRRQJYsw4"
+                href="https://www.tiktok.com/@vlxstudios_?_r=1&_t=ZS-9Achft3rDUe"
               >
                 <FontAwesomeIcon
                   size="lg"

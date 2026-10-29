@@ -107,7 +107,7 @@ function Contact() {
                   transition={{ duration: 0.3, delay: 0.2 }}
                   target="_blank"
                   className="flex flex-row lg:flex-col lg:space-y-2 justify-between items-center p-4 bg-white rounded cursor-pointer border-2 hover:bg-gray border-transparent hover:border-dark-soft transition-all"
-                  href="https://www.tiktok.com/@vandaluxe.15?_r=1&_t=ZS-99fRRQJYsw4"
+                  href="https://www.tiktok.com/@vlxstudios_?_r=1&_t=ZS-9Achft3rDUe"
                 >
                   <div className="flex items-center gap-1">
                     <FontAwesomeIcon

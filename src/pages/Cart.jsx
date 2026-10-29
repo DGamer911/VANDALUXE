@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { ArrowLeft, Dot, Minus, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Dot, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 
 import { useCart } from "../context/CartContext";
 
@@ -38,7 +38,7 @@ function Cart() {
 
   if (cart.length === 0) {
     return (
-      <main className="bg-dark text-white flex justify-center items-center relative min-h-screen px-6 md:px-12 mt-16 p-5">
+      <main className="bg-dark text-white flex flex-col justify-center items-center relative min-h-screen px-6 md:px-12 mt-16 p-5">
         <button
           className="bg-transparent lg:bg-dark-soft border absolute top-5 left-5 border-gray/20 p-2  justify-center cursor-pointer text-gray hover:text-white mb-4 flex gap-1 items-center"
           onClick={() => navigate(-1)}
@@ -46,18 +46,20 @@ function Cart() {
           <ArrowLeft size={18} />
           <span className="text-sm">Back</span>
         </button>
-
-        <div className="max-w-5xl flex flex-col justify-center items-center mx-auto text-center">
+        <div className="bg-accent p-4 rounded">
+          <ShoppingBag />
+        </div>
+        <div className=" p-4 flex-col justify-center items-center mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-semibold mb-6">
             Your Bag Is Empty
           </h1>
 
-          <p className="text-gray mb-8">
+          <p className="text-gray mb-4">
             You haven't added anything to your bag yet.
           </p>
           <Link
             to="/shop"
-            className="flex bg-white p-4 max-w-xs items-center justify-center gap-2 text-dark hover:bg-gray transition"
+            className="flex bg-white p-4 w-full items-center justify-center gap-2 text-dark hover:bg-gray transition"
           >
             <ArrowLeft size={17} />
             Continue Shopping

@@ -110,7 +110,7 @@ function Shop() {
       >
         <div className="storeBanner flex justify-between items-center absolute p-2 top-12 w-full h-[100px]">
           <span className="font-sm cursor-pointer border border-white-soft text-white-soft p-2 font-thin">
-            <NavLink className="font-sm hover:underline" to="/">
+            <NavLink className="font-sm hover:underline" to="/"> 
               Home
             </NavLink>
             {" / "}Shop

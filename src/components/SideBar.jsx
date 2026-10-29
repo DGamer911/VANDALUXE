@@ -73,7 +73,7 @@ function SideBar({ isOpen }) {
   };
 
   const sidebarContent = (
-    <>
+    <div className="h-screen">
       <div>
         <h1
           className="p-4 text-center text-xl text-white"
@@ -138,7 +138,7 @@ function SideBar({ isOpen }) {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 
   return (
