@@ -120,7 +120,7 @@ function Orders() {
 
     try {
       // Expected response: an array of orders, or { orders: [...] }.
-      const data = await adminFetch("/api/orders/admin");
+      const data = await adminFetch("/api/orders/admin/all");
       const list = Array.isArray(data) ? data : data.orders;
 
       if (!Array.isArray(list)) {

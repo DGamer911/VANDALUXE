@@ -132,7 +132,7 @@ function Analytics() {
     try {
       const [statsData, ordersData] = await Promise.all([
         adminFetch("/api/orders/admin/stats"),
-        adminFetch("/api/orders/admin"),
+        adminFetch("/api/orders/admin/all"),
       ]);
 
       const orderList = Array.isArray(ordersData)
