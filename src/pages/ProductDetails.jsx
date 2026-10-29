@@ -21,60 +21,133 @@ const API_URL = (
   import.meta.env.VITE_API_URL || "http://localhost:5000"
 ).replace(/\/$/, "");
 
-function SizeChart({ mobile = false }) {
-  const sizes = [
-    ["xxs", '29"-30"', '21"-23"', '33"-34"', '26"'],
-    ["xs", '31"-32"', '24"-25"', '35"-36"', '26.5"'],
-    ["s", '33"-34"', '26"-27"', '37"-38"', '27.5"'],
-    ["m", '35"-36"', '28"-29"', '39"-40"', '28"'],
-    ["l", '37"-38"', '30"-31"', '41"-42"', '28.5"'],
-    ["xl", '39"-40"', '32"-34"', '43"-44"', '29"'],
-    ["xxl", '41"-42"', '35"-37"', '45"-46"', '29.5"'],
-  ];
+function RecommendedProducts({ currentProductId, currentCategory }) {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function fetchProducts() {
+      try {
+        const response = await fetch(`${API_URL}/api/products`, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) throw new Error("Failed to load products");
+
+        const data = await response.json();
+
+        const allProducts = Array.isArray(data)
+          ? data
+          : data.products || [];
+
+        const activeProducts = allProducts.filter(
+          (item) =>
+            item._id !== currentProductId &&
+            item.isActive !== false
+        );
+
+        const sameCategory = currentCategory
+          ? activeProducts.filter(
+              (item) => item.category === currentCategory
+            )
+          : [];
+
+        const recommendations = [
+          ...sameCategory,
+          ...activeProducts.filter(
+            (item) => !sameCategory.some(
+              (recommended) => recommended._id === item._id
+            )
+          ),
+        ];
+
+        setProducts(recommendations.slice(0, 4));
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Recommended products error:", error);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchProducts();
+
+    return () => controller.abort();
+  }, [currentProductId, currentCategory]);
 
   return (
-    <div
-      className={`${
-        mobile ? "block lg:hidden" : "hidden lg:block flex-1/3"
-      } p-5 mt-2 bg-dark-soft`}
-    >
-      <div className="border-b border-gray/20 pb-4">
-        <span className="uppercase text-white">Size chart</span>
+    <aside className="w-full lg:w-[300px] lg:shrink-0 bg-dark-soft p-4 mt-2">
+      <div className="border-b border-gray/20 pb-4 flex items-center justify-between">
+        <h2 className="uppercase text-white text-sm tracking-wider">
+          You may also like
+        </h2>
+        <span className="text-gray text-xs">DISCOVER</span>
       </div>
 
-      <div className="uppercase my-4 bg-transparent border border-gray/20 text-white p-2">
-        Sizes in inches
-      </div>
+      <p className="text-gray text-xs font-light mt-3 mb-4">
+        More pieces worth adding to your collection.
+      </p>
 
-      <div className="overflow-x-auto">
-        <table className="text-white border border-gray/20 p-4 w-full">
-          <thead>
-            <tr className="uppercase">
-              {["Size", "Chest", "Waist", "Hip", "Inseam"].map((heading) => (
-                <th className="p-1" key={heading}>{heading}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {sizes.map((row) => (
-              <tr key={row[0]}>
-                {row.map((value, index) => (
-                  <td
-                    className={`p-1 ${index === 0 ? "uppercase" : ""}`}
-                    key={index}
-                  >
-                    {value}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+      {loading ? (
+        <div className="flex gap-3 overflow-hidden">
+          {[1, 2].map((item) => (
+            <div
+              key={item}
+              className="min-w-0 flex-1 h-40 bg-dark animate-pulse"
+            />
+          ))}
+        </div>
+      ) : products.length === 0 ? (
+        <p className="text-gray text-sm py-6">
+          More products coming soon.
+        </p>
+      ) : (
+        <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
+          {products.map((item) => (
+            <NavLink
+              key={item._id}
+              to={`/product/${item._id}`}
+              className="group flex flex-col lg:flex-row gap-3 border border-gray/10 p-2 hover:border-gray/40 transition"
+            >
+              <div className="aspect-[4/5] lg:aspect-square lg:w-24 lg:shrink-0 overflow-hidden bg-dark">
+                <img
+                  src={item.images?.[0] || placeholder}
+                  alt={item.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                />
+              </div>
+
+              <div className="flex flex-col justify-center min-w-0 gap-2">
+                <h3 className="text-white text-sm font-light line-clamp-2">
+                  {item.name}
+                </h3>
+                <p className="text-gray text-sm">
+                  ₦{Number(item.price).toLocaleString("en-NG")}
+                </p>
+                <span className="text-xs uppercase tracking-wider text-white underline underline-offset-4">
+                  View product
+                </span>
+              </div>
+            </NavLink>
+          ))}
+        </div>
+      )}
+
+      <NavLink
+        to="/shop"
+        className="mt-5 border border-gray/20 p-3 flex justify-center text-xs uppercase tracking-widest hover:bg-white hover:text-dark transition"
+      >
+        Explore all products
+      </NavLink>
+    </aside>
   );
 }
-
 function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -86,7 +159,7 @@ function ProductDetails() {
   const [error, setError] = useState("");
 
   const [extendedView, setExtendedview] = useState(false);
-  const [sizeGuide, setSizeGuide] = useState(false);
+
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -374,9 +447,7 @@ function ProductDetails() {
             </div>
           </div>
 
-          <SizeChart />
-
-          {sizeGuide && <SizeChart mobile />}
+<RecommendedProducts currentProductId={productId} currentCategory={product.category}/>
 
           {extendedView && (
             <motion.div
