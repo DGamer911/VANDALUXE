@@ -109,7 +109,7 @@ function Footer() {
             <h3 className="font-medium text-lg mb-4">Connect</h3>
             <div className="flex flex-col gap-3 mb-4">
               <a
-                              target="_blank"
+                target="_blank"
                 href="https://www.tiktok.com/@vandaluxe.15?_r=1&_t=ZS-99fRRQJYsw4"
                 className="flex items-center gap-2 text-gray hover:text-white transition-colors duration-300 text-sm"
               >
@@ -117,7 +117,7 @@ function Footer() {
                 <span>Tiktok</span>
               </a>
               <a
-                              target="_blank"
+                target="_blank"
                 href="https://x.com/vlxstudios_?s=11"
                 className="flex items-center gap-2 text-gray hover:text-white transition-colors duration-300 text-sm"
               >
@@ -133,7 +133,7 @@ function Footer() {
                 <span>Whatsapp</span>
               </a>
               <a
-                              target="_blank"
+                target="_blank"
                 href="https://www.instagram.com/vlxstudios?stkn=ZHYwajQ2N3Mzc20z&utm_source=qr"
                 className="flex items-center gap-2 text-gray hover:text-white transition-colors duration-300 text-sm"
               >
@@ -141,14 +141,17 @@ function Footer() {
                 <span>Instagram</span>
               </a>
             </div>
-<div className="space-y-2">
-                <p className="text-gray text-xs">
-              Email: <span className="text-white">vandaluxeclothingbrand@gmail.com</span>
-            </p>
-            <p className="text-gray text-xs">
-              Phone: <span className="text-white">+2349045523346</span>
-            </p>
-</div>
+            <div className="space-y-2">
+              <p className="text-gray text-xs">
+                Email:{" "}
+                <span className="text-white">
+                  vandaluxeclothingbrand@gmail.com
+                </span>
+              </p>
+              <p className="text-gray text-xs">
+                Phone: <span className="text-white">+2349045523346</span>
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -166,6 +169,23 @@ function Footer() {
             className="text-gray text-sm text-center md:text-left"
           >
             &copy; {currentYear} VANDALUXE. All rights reserved.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="text-gray text-xs text-center"
+          >
+            Designed &amp; Developed by {""}
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-gray-300 transition-colors duration-300 font-medium"
+            >
+              Prime Studios
+            </a>
           </motion.p>
 
           <motion.div
