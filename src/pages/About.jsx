@@ -1,6 +1,6 @@
 import "../index.css";
 import model from "../assets/vdx11.jpeg";
-import model2 from "../assets/LOGO1.jpeg";
+import model2 from "../assets/LOGO.jpg";
 import { NavLink } from "react-router-dom";
 import { Shirt, File, KeyRoundIcon } from "lucide-react";
 import { motion } from "motion/react";
