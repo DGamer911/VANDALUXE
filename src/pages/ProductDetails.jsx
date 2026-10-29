@@ -1,3 +1,4 @@
+
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Heart, X } from "lucide-react";
 import { useFavorites } from "../context/FavoritesContext";
@@ -7,7 +8,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import cartIconData from "../assets/InBag.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
   faFacebook,
   faInstagram,
@@ -21,9 +21,13 @@ const API_URL = (
   import.meta.env.VITE_API_URL || "http://localhost:5000"
 ).replace(/\/$/, "");
 
+
+
 function RecommendedProducts({ currentProductId, currentCategory }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+
 
   useEffect(() => {
     const controller = new AbortController();
@@ -38,21 +42,28 @@ function RecommendedProducts({ currentProductId, currentCategory }) {
 
         const data = await response.json();
 
-        const allProducts = Array.isArray(data) ? data : data.products || [];
+        const allProducts = Array.isArray(data)
+          ? data
+          : data.products || [];
 
         const activeProducts = allProducts.filter(
-          (item) => item._id !== currentProductId && item.isActive !== false,
+          (item) =>
+            item._id !== currentProductId &&
+            item.isActive !== false
         );
 
         const sameCategory = currentCategory
-          ? activeProducts.filter((item) => item.category === currentCategory)
+          ? activeProducts.filter(
+              (item) => item.category === currentCategory
+            )
           : [];
 
         const recommendations = [
           ...sameCategory,
           ...activeProducts.filter(
-            (item) =>
-              !sameCategory.some((recommended) => recommended._id === item._id),
+            (item) => !sameCategory.some(
+              (recommended) => recommended._id === item._id
+            )
           ),
         ];
 
@@ -73,7 +84,7 @@ function RecommendedProducts({ currentProductId, currentCategory }) {
     return () => controller.abort();
   }, [currentProductId, currentCategory]);
 
-
+  
 
   return (
     <aside className="w-full lg:w-[300px] lg:shrink-0 bg-dark-soft p-4 mt-2">
@@ -98,7 +109,9 @@ function RecommendedProducts({ currentProductId, currentCategory }) {
           ))}
         </div>
       ) : products.length === 0 ? (
-        <p className="text-gray text-sm py-6">More products coming soon.</p>
+        <p className="text-gray text-sm py-6">
+          More products coming soon.
+        </p>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
           {products.map((item) => (
@@ -246,55 +259,6 @@ function ProductDetails() {
   const available = product.isActive && product.stock > 0;
   const maxQuantity = Math.max(1, product.stock || 1);
 
-  const [shareOpen, setShareOpen] = useState(false);
-
-const shareProduct = async (platform) => {
-  const url = window.location.href;
-  const title = product.name;
-
-  const shareUrls = {
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-    x: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(`Check out ${title} at Vandaluxe`)}`,
-    pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&media=${encodeURIComponent(new URL(product.images?.[0] || placeholder, window.location.origin).href)}&description=${encodeURIComponent(title)}`,
-  };
-
-  if (platform === "instagram" || platform === "native") {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title,
-          text: `Check out ${title} at Vandaluxe`,
-          url,
-        });
-      } catch (error) {
-        if (error.name !== "AbortError") {
-          console.error("Sharing failed:", error);
-        }
-      }
-    } else {
-      await navigator.clipboard.writeText(url);
-      alert("Product link copied. Open Instagram and share it there.");
-    }
-    return;
-  }
-
-  if (platform === "copy") {
-    try {
-      await navigator.clipboard.writeText(url);
-      alert("Product link copied!");
-    } catch {
-      prompt("Copy this product link:", url);
-    }
-    return;
-  }
-
-  window.open(
-    shareUrls[platform],
-    "_blank",
-    "noopener,noreferrer,width=650,height=550"
-  );
-};
-
   const handleAddToCart = () => {
     if (!selectedSize) {
       alert("Please select a size.");
@@ -335,69 +299,16 @@ const shareProduct = async (platform) => {
               <span className="text-sm">Back</span>
             </button>
 
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setShareOpen((open) => !open)}
-                aria-expanded={shareOpen}
-                className="flex items-center gap-3 p-2 border border-gray/20 text-white hover:border-white transition"
-              >
-                <span className="uppercase text-sm font-light">Share</span>
-                <span aria-hidden="true">↗</span>
-              </button>
-
-              <AnimatePresence>
-                {shareOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    className="absolute right-0 top-full mt-2 z-50 w-52 bg-dark-soft border border-gray/20 p-2 shadow-xl"
-                  >
-                    <p className="text-gray uppercase text-xs tracking-wider p-2">
-                      Share this product
-                    </p>
-
-                    <button
-                      onClick={() => shareProduct("instagram")}
-                      className="flex items-center gap-3 w-full p-3 text-sm hover:bg-white/10"
-                    >
-                      <FontAwesomeIcon icon={faInstagram} />
-                      Instagram / More
-                    </button>
-
-                    <button
-                      onClick={() => shareProduct("facebook")}
-                      className="flex items-center gap-3 w-full p-3 text-sm hover:bg-white/10"
-                    >
-                      <FontAwesomeIcon icon={faFacebook} />
-                      Facebook
-                    </button>
-
-                    <button
-                      onClick={() => shareProduct("x")}
-                      className="flex items-center gap-3 w-full p-3 text-sm hover:bg-white/10"
-                    >
-                      <FontAwesomeIcon icon={faXTwitter} />X
-                    </button>
-
-                    <button
-                      onClick={() => shareProduct("pinterest")}
-                      className="flex items-center gap-3 w-full p-3 text-sm hover:bg-white/10"
-                    >
-                      <FontAwesomeIcon icon={faPinterest} />
-                      Pinterest
-                    </button>
-
-                    <button
-                      onClick={() => shareProduct("copy")}
-                      className="w-full text-left p-3 border-t border-gray/20 text-sm hover:bg-white/10"
-                    >
-                      Copy product link
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <div className="flex p-2 items-center gap-2 lg:bg-dark-soft bg-transparent border border-gray/20 text-gray">
+              <span className="uppercase border-r border-gray/20 text-sm font-light pr-2">
+                Share
+              </span>
+              <div className="flex gap-2 text-white">
+                <FontAwesomeIcon icon={faInstagram} />
+                <FontAwesomeIcon icon={faFacebook} />
+                <FontAwesomeIcon icon={faXTwitter} />
+                <FontAwesomeIcon icon={faPinterest} />
+              </div>
             </div>
           </div>
 
@@ -432,10 +343,9 @@ const shareProduct = async (platform) => {
                 {product.description}
               </p>
 
+
               <div className="my-3">
-                <p className="text-xs text-gray mb-2 text-center">
-                  Select size
-                </p>
+                <p className="text-xs text-gray mb-2 text-center">Select size</p>
                 <ul className="flex flex-wrap justify-center gap-1">
                   {sizes.map((size) => (
                     <li
@@ -464,9 +374,7 @@ const shareProduct = async (platform) => {
 
               <div className="flex items-center gap-4 my-4">
                 <button
-                  onClick={() =>
-                    setQuantity((current) => Math.max(1, current - 1))
-                  }
+                  onClick={() => setQuantity((current) => Math.max(1, current - 1))}
                   className="border border-gray/20 w-9 h-9"
                   aria-label="Decrease quantity"
                 >
@@ -475,7 +383,9 @@ const shareProduct = async (platform) => {
                 <span>{quantity}</span>
                 <button
                   onClick={() =>
-                    setQuantity((current) => Math.min(maxQuantity, current + 1))
+                    setQuantity((current) =>
+                      Math.min(maxQuantity, current + 1)
+                    )
                   }
                   disabled={quantity >= maxQuantity}
                   className="border border-gray/20 w-9 h-9 disabled:opacity-40"
@@ -487,9 +397,7 @@ const shareProduct = async (platform) => {
 
               <div className="w-full items-center justify-center gap-2 flex flex-col">
                 {!selectedSize && available && (
-                  <span className="font-light text-gray">
-                    Please pick a size
-                  </span>
+                  <span className="font-light text-gray">Please pick a size</span>
                 )}
 
                 <button
@@ -531,10 +439,7 @@ const shareProduct = async (platform) => {
                 </button>
 
                 {isSuccess && (
-                  <NavLink
-                    className="underline font-light text-gray"
-                    to="/cart"
-                  >
+                  <NavLink className="underline font-light text-gray" to="/cart">
                     View Bag
                   </NavLink>
                 )}
@@ -542,10 +447,7 @@ const shareProduct = async (platform) => {
             </div>
           </div>
 
-          <RecommendedProducts
-            currentProductId={productId}
-            currentCategory={product.category}
-          />
+<RecommendedProducts currentProductId={productId} currentCategory={product.category}/>
 
           {extendedView && (
             <motion.div
@@ -556,9 +458,7 @@ const shareProduct = async (platform) => {
               className="fixed w-full h-screen bg-transparent flex lg:flex-row lg:gap-2 flex-col items-center z-[200] p-5 justify-center backdrop-blur-3xl top-0 left-0"
             >
               <div className="flex p-2 items-center bg-gray/80 rounded justify-between w-full my-4">
-                <h1 style={{ fontFamily: "Castoro titling" }}>
-                  {product.name}
-                </h1>
+                <h1 style={{ fontFamily: "Castoro titling" }}>{product.name}</h1>
                 <button
                   onClick={() => setExtendedview(false)}
                   aria-label="Close expanded image"
@@ -573,71 +473,15 @@ const shareProduct = async (platform) => {
                 alt={product.name}
               />
 
- 
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setShareOpen((open) => !open)}
-                aria-expanded={shareOpen}
-                className="flex items-center gap-3 p-2 border border-gray/20 text-white hover:border-white transition"
-              >
-                <span className="uppercase text-sm font-light">Share</span>
-                <span aria-hidden="true">↗</span>
-              </button>
-
-              <AnimatePresence>
-                {shareOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    className="absolute right-0 top-full mt-2 z-50 w-52 bg-dark-soft border border-gray/20 p-2 shadow-xl"
-                  >
-                    <p className="text-gray uppercase text-xs tracking-wider p-2">
-                      Share this product
-                    </p>
-
-                    <button
-                      onClick={() => shareProduct("instagram")}
-                      className="flex items-center gap-3 w-full p-3 text-sm hover:bg-white/10"
-                    >
-                      <FontAwesomeIcon icon={faInstagram} />
-                      Instagram / More
-                    </button>
-
-                    <button
-                      onClick={() => shareProduct("facebook")}
-                      className="flex items-center gap-3 w-full p-3 text-sm hover:bg-white/10"
-                    >
-                      <FontAwesomeIcon icon={faFacebook} />
-                      Facebook
-                    </button>
-
-                    <button
-                      onClick={() => shareProduct("x")}
-                      className="flex items-center gap-3 w-full p-3 text-sm hover:bg-white/10"
-                    >
-                      <FontAwesomeIcon icon={faXTwitter} />X
-                    </button>
-
-                    <button
-                      onClick={() => shareProduct("pinterest")}
-                      className="flex items-center gap-3 w-full p-3 text-sm hover:bg-white/10"
-                    >
-                      <FontAwesomeIcon icon={faPinterest} />
-                      Pinterest
-                    </button>
-
-                    <button
-                      onClick={() => shareProduct("copy")}
-                      className="w-full text-left p-3 border-t border-gray/20 text-sm hover:bg-white/10"
-                    >
-                      Copy product link
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+              <div className="bg-gray/80 items-center p-2 my-4 flex w-full rounded justify-between">
+                <span>SHARE</span>
+                <span className="flex cursor-pointer items-center gap-2">
+                  <FontAwesomeIcon icon={faFacebook} />
+                  <FontAwesomeIcon icon={faInstagram} />
+                  <FontAwesomeIcon icon={faXTwitter} />
+                  <FontAwesomeIcon icon={faPinterest} />
+                </span>
+              </div>
             </motion.div>
           )}
         </section>

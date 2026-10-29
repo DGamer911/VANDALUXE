@@ -9,7 +9,7 @@ import { HelmetProvider } from "react-helmet-async";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <HelmetProvider>
+
       <BrowserRouter>
         <CartProvider>
       <FavoritesProvider>
@@ -17,6 +17,6 @@ createRoot(document.getElementById("root")).render(
       </FavoritesProvider>
     </CartProvider>
     </BrowserRouter>
-    </HelmetProvider>
+ 
   </StrictMode>,
 );
