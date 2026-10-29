@@ -1,5 +1,4 @@
 
-import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -73,7 +72,7 @@ function SideBar({ isOpen }) {
   };
 
   const sidebarContent = (
-    <div className="h-screen">
+    <div className="h-screen flex flex-col justify-between ">
       <div>
         <h1
           className="p-4 text-center text-xl text-white"
@@ -101,7 +100,7 @@ function SideBar({ isOpen }) {
         </ul>
       </div>
 
-      <div>
+      <div className="">
         <div className="flex w-full flex-col items-center justify-center text-center text-gray">
           <img
             src={Logo2}
