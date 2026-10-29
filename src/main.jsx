@@ -5,15 +5,18 @@ import { FavoritesProvider } from "./context/FavoritesContext";
 import { CartProvider } from "./context/CartContext.jsx";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
+import { HelmetProvider } from "react-helmet-async";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-    <CartProvider>
+    <HelmetProvider>
+      <BrowserRouter>
+        <CartProvider>
       <FavoritesProvider>
         <App />
       </FavoritesProvider>
     </CartProvider>
     </BrowserRouter>
+    </HelmetProvider>
   </StrictMode>,
 );
