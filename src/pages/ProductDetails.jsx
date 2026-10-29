@@ -337,12 +337,6 @@ function ProductDetails() {
                 {product.description}
               </p>
 
-              <span
-                onClick={() => setSizeGuide(!sizeGuide)}
-                className="font-light lg:hidden text-sm cursor-pointer uppercase underline"
-              >
-                {sizeGuide ? "Hide size guide" : "View size guide"}
-              </span>
 
               <div className="my-3">
                 <p className="text-xs text-gray mb-2 text-center">Select size</p>
