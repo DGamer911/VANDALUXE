@@ -21,6 +21,37 @@ export const getAdminOrders = async (req, res) => {
     });
   }
 };
+/**
+ * GET /api/orders/admin/:id
+ * Retrieve one order for the admin order-details page.
+ */
+export const getAdminOrderById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({
+        error: "Invalid order ID.",
+      });
+    }
+
+    const order = await Order.findById(id).lean();
+
+    if (!order) {
+      return res.status(404).json({
+        error: "Order not found.",
+      });
+    }
+
+    return res.status(200).json({ order });
+  } catch (error) {
+    console.error("Get admin order details error:", error);
+
+    return res.status(500).json({
+      error: "Unable to retrieve order details.",
+    });
+  }
+};
 
 // GET /api/orders/admin/stats
 // Calculate dashboard statistics from MongoDB.

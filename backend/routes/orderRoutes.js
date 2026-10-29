@@ -8,6 +8,7 @@ import {
   getAdminOrders,
   getOrderStats,
   updateOrderStatus,
+  getAdminOrderById,
 } from "../controllers/orderController.js";
 
 import protectAdmin from "../middleware/adminAuth.js";
@@ -17,6 +18,7 @@ const router = express.Router();
 router.get("/admin/all", protectAdmin, getAdminOrders);
 
 router.get("/admin/stats", protectAdmin, getOrderStats);
+router.get("/admin/:id", protectAdmin, getAdminOrderById);
 
 router.patch(
   "/admin/:id/status",
