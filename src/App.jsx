@@ -45,7 +45,7 @@ function App() {
 
         {/*Admin*/}
         <Route element={<AdminLayout />}>
-          <Route path="/admin/order/:id" element={<OrderDetails />} />
+          <Route path="/admin/orders/:id" element={<OrderDetails />} />
           <Route path="/admin/orders" element={<Order />} />
           <Route path="/admin/dashboard" element={<AdminPanel />} />
           <Route path="/admin/catalogue" element={<Catalogue/>} />
