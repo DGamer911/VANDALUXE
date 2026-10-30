@@ -36,30 +36,37 @@ async function verifyWithPaystack(reference) {
 
 // Check that the transaction belongs to the expected order.
 function transactionMatchesOrder(transaction, order) {
-  const expectedAmount = Math.round(order.total * 100);
+  const expectedAmount = Math.round(Number(order.total) * 100);
 
-  const emailMatches =
-    !transaction.customer?.email ||
-    transaction.customer.email.toLowerCase() ===
-      order.customer.email.toLowerCase();
+  const transactionEmail = transaction.customer?.email
+    ?.trim()
+    .toLowerCase();
 
-  console.log("Payment verification diagnostics:", {
+  const orderEmail = order.customer?.email
+    ?.trim()
+    .toLowerCase();
+
+  const checks = {
+    statusMatches: transaction.status === "success",
+    referenceMatches:
+      transaction.reference === order.paymentReference,
+    amountMatches: transaction.amount === expectedAmount,
+    currencyMatches: transaction.currency === "NGN",
+    emailMatches:
+      !transactionEmail || transactionEmail === orderEmail,
+  };
+
+  console.log("Payment verification checks:", {
+    ...checks,
     transactionStatus: transaction.status,
-    transactionReference: transaction.reference,
-    orderReference: order.paymentReference,
     transactionAmount: transaction.amount,
-    expectedAmount: Math.round(order.total * 100),
+    expectedAmount,
     transactionCurrency: transaction.currency,
-    transactionEmail: transaction.customer?.email,
-    orderEmail: order.customer.email,
+    transactionReferenceMatches: checks.referenceMatches,
+    orderTotal: order.total,
   });
-  return (
-    transaction.status === "success" &&
-    transaction.reference === order.paymentReference &&
-    transaction.amount === expectedAmount &&
-    transaction.currency === "NGN" &&
-    emailMatches
-  );
+
+  return Object.values(checks).every(Boolean);
 }
 
 // Update the order without downgrading an advanced order status.
