@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import SideBar from "../../components/SideBar";
-import AdminHeader from "../../components/AdminHeader";
+import SideBar from "../components/SideBar";
+import AdminHeader from "../components/AdminHeader";
 
 const STORAGE_KEY = "vandaluxe_admin_preferences";
 
