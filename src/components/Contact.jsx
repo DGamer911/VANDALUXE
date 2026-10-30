@@ -116,7 +116,7 @@ function Contact() {
                       icon={faTiktok}
                     />
                   </div>
-                  <span className="text-sm text-dark-soft">@vandaluxe</span>
+                  <span className="text-sm text-dark-soft">@vlxstudios_</span>
                 </motion.a>
 
                 <motion.a
