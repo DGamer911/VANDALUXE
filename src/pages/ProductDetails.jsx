@@ -261,12 +261,38 @@ const [activeImageIndex, setActiveImageIndex] = useState(0);
 
 const productId = product._id;
 
-const images = Array.isArray(product.images)
-  ? product.images.filter(
-      (url) => typeof url === "string" && url.trim() !== ""
-    )
-  : [];
+const images = (() => {
+  const rawImages = Array.isArray(product.images)
+    ? product.images
+    : typeof product.images === "string"
+      ? [product.images]
+      : [];
 
+  const normalizedImages = rawImages
+    .map((image) =>
+      typeof image === "string"
+        ? image
+        : image?.url || ""
+    )
+    .filter(
+      (url) =>
+        typeof url === "string" &&
+        url.trim() !== ""
+    );
+
+  if (normalizedImages.length > 0) {
+    return normalizedImages;
+  }
+
+  const fallback =
+    product.img ||
+    product.image ||
+    product.imageUrl ||
+    product.thumbnail ||
+    "";
+
+  return fallback ? [fallback] : [];
+})();
 const hasSlideshow = images.length > 1;
 
 const image = images[activeImageIndex] || images[0] || placeholder;
