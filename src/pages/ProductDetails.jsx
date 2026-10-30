@@ -509,7 +509,7 @@ const sizes = product.sizes || [];
                       Added to Bag!
                     </motion.span>
                   ) : !available ? (
-                    "Unavailable"
+                    "Out Of Stock"
                   ) : (
                     "Add to Bag"
                   )}

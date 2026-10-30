@@ -83,8 +83,15 @@ app.use((req, res, next) => {
 
   next();
 });
+// Preserve the raw request body for Paystack webhook signature verification.
+app.use(
+  "/api/payments/webhook",
+  express.raw({ type: "application/json" })
+);
 
 app.use(express.json({ limit: "20kb" }));
+
+
 
 // Existing API routes.
 app.use("/api/payments", paymentRoutes);
