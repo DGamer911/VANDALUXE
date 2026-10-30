@@ -1,11 +1,6 @@
-
 import mongoose from "mongoose";
 import express from "express";
-import {
-  randomUUID,
-  createHmac,
-  timingSafeEqual,
-} from "node:crypto";
+import { randomUUID, createHmac, timingSafeEqual } from "node:crypto";
 
 import Order from "../models/Order.js";
 
@@ -25,14 +20,14 @@ async function verifyWithPaystack(reference) {
       headers: {
         Authorization: `Bearer ${getSecretKey()}`,
       },
-    }
+    },
   );
 
   const result = await response.json();
 
   if (!response.ok || !result.status || !result.data) {
     throw new Error(
-      result.message || "Paystack transaction verification failed."
+      result.message || "Paystack transaction verification failed.",
     );
   }
 
@@ -48,6 +43,16 @@ function transactionMatchesOrder(transaction, order) {
     transaction.customer.email.toLowerCase() ===
       order.customer.email.toLowerCase();
 
+  console.log("Payment verification diagnostics:", {
+    transactionStatus: transaction.status,
+    transactionReference: transaction.reference,
+    orderReference: order.paymentReference,
+    transactionAmount: transaction.amount,
+    expectedAmount: Math.round(order.total * 100),
+    transactionCurrency: transaction.currency,
+    transactionEmail: transaction.customer?.email,
+    orderEmail: order.customer.email,
+  });
   return (
     transaction.status === "success" &&
     transaction.reference === order.paymentReference &&
@@ -72,29 +77,24 @@ async function markOrderAsPaid(order) {
 function isValidPaystackSignature(req) {
   const signature = req.get("x-paystack-signature");
   const secretKey = getSecretKey();
+  const rawBody = req.rawBody;
 
-  if (
-    !signature ||
-    !secretKey ||
-    !Buffer.isBuffer(req.body)
-  ) {
+  if (!signature || !secretKey || !Buffer.isBuffer(rawBody)) {
     return false;
   }
 
   const expectedSignature = createHmac("sha512", secretKey)
-    .update(req.body)
+    .update(rawBody)
     .digest("hex");
 
-  const receivedBuffer = Buffer.from(signature, "utf8");
-  const expectedBuffer = Buffer.from(expectedSignature, "utf8");
+  const receivedBuffer = Buffer.from(signature, "hex");
+  const expectedBuffer = Buffer.from(expectedSignature, "hex");
 
   return (
     receivedBuffer.length === expectedBuffer.length &&
     timingSafeEqual(receivedBuffer, expectedBuffer)
   );
 }
-
-
 // POST /api/payments/initialize
 router.post("/initialize", async (req, res) => {
   try {
@@ -148,8 +148,7 @@ router.post("/initialize", async (req, res) => {
     }
 
     // Reuse the existing reference if the customer retries.
-    const reference =
-      order.paymentReference || `vdx-${randomUUID()}`;
+    const reference = order.paymentReference || `vdx-${randomUUID()}`;
 
     const callbackUrl = process.env.PAYSTACK_CALLBACK_URL;
 
@@ -167,25 +166,18 @@ router.post("/initialize", async (req, res) => {
       payload.callback_url = callbackUrl;
     }
 
-    const response = await fetch(
-      `${PAYSTACK_API}/transaction/initialize`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${getSecretKey()}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      }
-    );
+    const response = await fetch(`${PAYSTACK_API}/transaction/initialize`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${getSecretKey()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
     const result = await response.json();
 
-    if (
-      !response.ok ||
-      !result.status ||
-      !result.data?.authorization_url
-    ) {
+    if (!response.ok || !result.status || !result.data?.authorization_url) {
       console.error("Paystack initialization diagnostic:", {
         httpStatus: response.status,
         message: result.message,
@@ -214,7 +206,6 @@ router.post("/initialize", async (req, res) => {
   }
 });
 
-
 // POST /api/payments/webhook
 router.post("/webhook", async (req, res) => {
   try {
@@ -228,7 +219,7 @@ router.post("/webhook", async (req, res) => {
       return res.sendStatus(401);
     }
 
-    const event = JSON.parse(req.body.toString("utf8"));
+    const event = req.body;
 
     // We only process successful charge events.
     if (event.event !== "charge.success") {
@@ -300,7 +291,6 @@ router.post("/webhook", async (req, res) => {
     return res.sendStatus(500);
   }
 });
-
 
 // GET /api/payments/verify/:reference
 router.get("/verify/:reference", async (req, res) => {

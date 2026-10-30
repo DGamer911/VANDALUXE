@@ -273,10 +273,10 @@ function Analytics() {
   };
 
   return (
-    <section className="flex min-h-screen overflow-x-hidden bg-dark text-white">
+    <section className=" min-h-screen overflow-x-hidden bg-dark text-white">
       <SideBar isOpen={isSideBarOpen} />
 
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 lg:ml-[200px]">
         <AdminHeader
           onMenuClick={toggleSidebar}
           pageName="Analytics"
