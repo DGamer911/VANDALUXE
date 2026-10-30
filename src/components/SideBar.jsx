@@ -72,7 +72,7 @@ function SideBar({ isOpen }) {
   };
 
   const sidebarContent = (
-    <div className="h-screen flex flex-col justify-between ">
+    <div className="flex min-h-full flex-col justify-between">
       <div>
         <h1
           className="p-4 text-center text-xl text-white"
@@ -147,7 +147,7 @@ function SideBar({ isOpen }) {
         initial={{ x: -200 }}
         animate={{ x: 0 }}
         transition={{ duration: 0.3 }}
-        className="hidden h-screen w-full max-w-[200px] flex-col justify-between border-r border-gray/20 bg-dark-soft p-2 lg:flex"
+     className="fixed inset-y-0 left-0 z-40 hidden h-screen w-[200px] flex-col justify-between overflow-y-auto border-r border-gray/20 bg-dark-soft p-2 lg:flex"
       >
         {sidebarContent}
       </motion.aside>
