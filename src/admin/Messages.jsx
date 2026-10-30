@@ -13,8 +13,8 @@ import {
   X,
 } from "lucide-react";
 
-import SideBar from "../../components/SideBar";
-import AdminHeader from "../../components/AdminHeader";
+import SideBar from "../components/SideBar";
+import AdminHeader from "../components/AdminHeader";
 
 const API_URL = (
   import.meta.env.VITE_API_URL || "http://localhost:5000"
