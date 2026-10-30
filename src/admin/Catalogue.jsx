@@ -15,8 +15,9 @@ import {
   LoaderCircle,
   AlertCircle,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
-
 const API_URL = (
   import.meta.env.VITE_API_URL || "http://localhost:5000"
 ).replace(/\/$/, "");
@@ -68,25 +69,36 @@ const OPERATIONS = [
   },
 ];
 
-function getProductImage(product) {
-  if (Array.isArray(product.images)) {
-    const firstImage = product.images[0];
+function getProductImages(product) {
+  const rawImages = Array.isArray(product.images)
+    ? product.images
+    : typeof product.images === "string"
+      ? [product.images]
+      : [];
 
-    if (typeof firstImage === "string") return firstImage;
-    if (firstImage?.url) return firstImage.url;
-  }
+  const images = rawImages
+    .map((image) =>
+      typeof image === "string" ? image : image?.url || ""
+    )
+    .filter((url) => typeof url === "string" && url.trim());
 
-  if (typeof product.images === "string") return product.images;
+  if (images.length > 0) return images;
 
-  return (
+  const fallback =
     product.img ||
     product.image ||
     product.imageUrl ||
     product.thumbnail ||
-    ""
-  );
+    "";
+
+  return typeof fallback === "string" && fallback.trim()
+    ? [fallback]
+    : [];
 }
 
+function getProductImage(product) {
+  return getProductImages(product)[0] || "";
+}
 function formatPrice(price) {
   if (price == null || price === "") return "Price not set";
 
@@ -108,6 +120,92 @@ function getStock(product) {
 function getErrorMessage(data, fallback) {
   return data?.error || data?.message || fallback;
 }
+
+
+function CatalogueProductImages({ product }) {
+  const images = getProductImages(product);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [product._id, product.id, product.images]);
+
+  if (images.length === 0) {
+    return (
+      <div className="flex aspect-square items-center justify-center bg-dark-soft text-sm text-gray">
+        No product image
+      </div>
+    );
+  }
+
+  const hasSlideshow = images.length > 1;
+  const currentIndex = Math.min(activeIndex, images.length - 1);
+
+  return (
+    <div className="relative aspect-square w-full overflow-hidden bg-dark-soft">
+      <img
+        src={images[currentIndex]}
+        alt={`${product.name || "Product"} - Image ${currentIndex + 1}`}
+        className="h-full w-full object-cover"
+        loading="lazy"
+      />
+
+      {hasSlideshow && (
+        <>
+          <button
+            type="button"
+            onClick={() =>
+              setActiveIndex(
+                (currentIndex - 1 + images.length) % images.length
+              )
+            }
+            aria-label="Previous product image"
+            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/65 p-2 text-white transition hover:bg-black/90"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              setActiveIndex(
+                (currentIndex + 1) % images.length
+              )
+            }
+            aria-label="Next product image"
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/65 p-2 text-white transition hover:bg-black/90"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/60 px-3 py-2">
+            {images.map((url, index) => (
+              <button
+                key={`${url}-${index}`}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                aria-label={`View image ${index + 1}`}
+                aria-current={
+                  currentIndex === index ? "true" : undefined
+                }
+                className={`h-2 rounded-full transition-all ${
+                  currentIndex === index
+                    ? "w-5 bg-white"
+                    : "w-2 bg-white/50 hover:bg-white"
+                }`}
+              />
+            ))}
+          </div>
+
+          <span className="absolute right-3 top-3 rounded bg-black/65 px-2 py-1 text-xs text-white">
+            {currentIndex + 1}/{images.length}
+          </span>
+        </>
+      )}
+    </div>
+  );
+}
+
 
 function Catalogue() {
   const [products, setProducts] = useState([]);
@@ -859,25 +957,14 @@ function getAdminToken() {
             {!loading && !error && products.length > 0 && (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                 {products.map((product) => {
-                  const image = getProductImage(product);
+                  
 
                   return (
                     <article
                       key={product._id || product.id}
                       className="overflow-hidden rounded border border-white/5 bg-dark"
                     >
-                      {image ? (
-                        <img
-                          src={image}
-                          alt={product.name || "Product"}
-                          className="aspect-square w-full object-cover"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="flex aspect-square items-center justify-center bg-dark-soft text-sm text-gray">
-                          No product image
-                        </div>
-                      )}
+                      <CatalogueProductImages product={product} />
 
                       <div className="space-y-2 p-4">
                         <div className="flex items-start justify-between gap-2">

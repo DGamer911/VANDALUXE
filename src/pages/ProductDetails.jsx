@@ -1,6 +1,12 @@
 
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Heart, X } from "lucide-react";
+import {
+  ArrowLeft,
+  Heart,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { useFavorites } from "../context/FavoritesContext";
 import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
@@ -117,7 +123,7 @@ function RecommendedProducts({ currentProductId, currentCategory }) {
           {products.map((item) => (
             <NavLink
               key={item._id}
-              to={`/product/${item._id}`}
+              to={`/products/${item._id}`}
               className="group flex flex-col lg:flex-row gap-3 border border-gray/10 p-2 hover:border-gray/40 transition"
             >
               <div className="aspect-[4/5] lg:aspect-square lg:w-24 lg:shrink-0 overflow-hidden bg-dark">
@@ -165,7 +171,7 @@ function ProductDetails() {
   const [error, setError] = useState("");
 
   const [extendedView, setExtendedview] = useState(false);
-
+const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -180,6 +186,7 @@ function ProductDetails() {
         setError("");
         setProduct(null);
         setSelectedSize("");
+        setActiveImageIndex(0);
         setQuantity(1);
 
         const response = await fetch(`${API_URL}/api/products/${id}`, {
@@ -252,9 +259,19 @@ function ProductDetails() {
     );
   }
 
-  const productId = product._id;
-  const image = product.images?.[0] || placeholder;
-  const sizes = product.sizes || [];
+const productId = product._id;
+
+const images = Array.isArray(product.images)
+  ? product.images.filter(
+      (url) => typeof url === "string" && url.trim() !== ""
+    )
+  : [];
+
+const hasSlideshow = images.length > 1;
+
+const image = images[activeImageIndex] || images[0] || placeholder;
+
+const sizes = product.sizes || [];
   const favorite = isFavorite(productId);
   const available = product.isActive && product.stock > 0;
   const maxQuantity = Math.max(1, product.stock || 1);
@@ -324,12 +341,72 @@ function ProductDetails() {
               />
             </div>
 
-            <img
-              onClick={() => setExtendedview(true)}
-              className="w-full lg:max-w-[500px] cursor-pointer"
-              src={image}
-              alt={product.name}
-            />
+<div className="relative w-full lg:max-w-[500px] overflow-hidden">
+  <img
+    onClick={() => setExtendedview(true)}
+    className="w-full cursor-zoom-in"
+    src={image}
+    alt={`${product.name} - Image ${activeImageIndex + 1}`}
+  />
+
+  {hasSlideshow && (
+    <>
+      {/* Previous image */}
+      <button
+        type="button"
+        onClick={() =>
+          setActiveImageIndex((current) =>
+            (current - 1 + images.length) % images.length
+          )
+        }
+        aria-label="Previous product image"
+        className="absolute left-3 top-1/2 -translate-y-1/2
+          bg-black/60 text-white p-2 rounded-full
+          hover:bg-black/80 transition"
+      >
+        <ChevronLeft size={22} />
+      </button>
+
+      {/* Next image */}
+      <button
+        type="button"
+        onClick={() =>
+          setActiveImageIndex((current) =>
+            (current + 1) % images.length
+          )
+        }
+        aria-label="Next product image"
+        className="absolute right-3 top-1/2 -translate-y-1/2
+          bg-black/60 text-white p-2 rounded-full
+          hover:bg-black/80 transition"
+      >
+        <ChevronRight size={22} />
+      </button>
+
+      {/* Image indicators */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2
+        flex items-center gap-2 bg-black/50 rounded-full px-3 py-2">
+        {images.map((url, index) => (
+          <button
+            key={`${url}-${index}`}
+            type="button"
+            onClick={() => setActiveImageIndex(index)}
+            aria-label={`View image ${index + 1}`}
+            aria-current={
+              activeImageIndex === index ? "true" : undefined
+            }
+            className={`h-2 rounded-full transition-all ${
+              activeImageIndex === index
+                ? "w-5 bg-white"
+                : "w-2 bg-white/50 hover:bg-white/80"
+            }`}
+          />
+        ))}
+      </div>
+    </>
+  )}
+</div>
+
 
             <div className="flex flex-col lg:max-w-[400px] w-full items-center">
               <div className="bg-dark px-6 py-2 text-center translate-y-[-10%]">
@@ -368,7 +445,7 @@ function ProductDetails() {
 
               {available && (
                 <p className="text-xs text-gray">
-                  {product.stock} currently in stock
+                  {product.stock === 0 ? "Out of Stock" : `${product.stock} item(s) available`} 
                 </p>
               )}
 
